@@ -1,7 +1,7 @@
 BEGIN;
 TRUNCATE
-  "user",
-  "queue";
+  "queue",
+  "user";
 
 INSERT INTO "user"("id", "username", "title", "name", "password")
 VALUES
@@ -55,12 +55,12 @@ VALUES
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
   );
 
-  INSERT INTO "queue" ("id", "description", "user_id", "mentor_id", "dequeue", "completed")
+  INSERT INTO "queue" ("id", "desc", "user_id", "mentor_id", "dequeue", "completed")
   VALUES
-    (1, "help me i dont know what i'm doing", 2, 7, TRUE, FALSE),
-    (2, "help me i dont know what i'm doing", 3, 6, TRUE, FALSE),
-    (3, "help me i dont know what i'm doing", 4, NULL, FALSE, FALSE),
-    (4, "help me i dont know what i'm doing", 5, NULL, FALSE, FALSE),
-    (5, "help me i dont know what i'm doing", 6, NULL, FALSE, FALSE),
+    (1, "help me i dont know what im doing", 2, 7, TRUE, FALSE),
+    (2, "help me i dont know what im doing", 3, 6, TRUE, FALSE),
+    (3, "help me i dont know what im doing", 4, NULL, FALSE, FALSE),
+    (4, "help me i dont know what im doing", 5, NULL, FALSE, FALSE),
+    (5, "help me i dont know what im doing", 6, NULL, FALSE, FALSE);
     
 COMMIT;
