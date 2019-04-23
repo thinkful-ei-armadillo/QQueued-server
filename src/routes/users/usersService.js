@@ -1,5 +1,10 @@
+const bcrypt = require('bcryptjs');
 
 const usersService = {
+
+  hashPassword(password) {
+    return bcrypt.hash(password, 12);
+  },
 
   validateUserName(db, username) {
     return db('user')

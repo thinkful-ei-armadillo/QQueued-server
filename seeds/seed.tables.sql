@@ -55,7 +55,7 @@ VALUES
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
   );
 
-  INSERT INTO "queue" ("id", "desc", "user_id", "mentor_id", "dequeue", "completed")
+  INSERT INTO "queue"("id", "desc", "user_id", "mentor_id", "dequeue", "completed")
   VALUES
     (1, "help me i dont know what im doing", 2, 7, TRUE, FALSE),
     (2, "help me i dont know what im doing", 3, 6, TRUE, FALSE),

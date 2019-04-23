@@ -19,6 +19,7 @@ app.use('/api/users', usersRoute);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
+ 
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } };
   } else {
@@ -26,6 +27,7 @@ app.use(function errorHandler(error, req, res, next) {
     response = { message: error.message, error };
   }
   res.status(500).json(response);
+  
 });
 
 module.exports = app;

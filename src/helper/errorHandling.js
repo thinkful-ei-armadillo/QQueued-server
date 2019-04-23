@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const regex = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
 
 const errorHandling = {
@@ -6,13 +5,13 @@ const errorHandling = {
   validateUserRequest(body) {
     let result = {
       isError: false,
-      message: ''
+      error: ''
     };
 
     for (const key of ['username', 'password']) {
       if (!body[key]) {
-        result.message = `Missing '${key}' in request body`;
-        result.error = true;
+        result.error = `Missing '${key}' in request body`;
+        result.isError = true;
         return result;
       }
     }
@@ -33,10 +32,6 @@ const errorHandling = {
       return 'Password must contain one upper case, lower case, number and special character';
     }
     return null;
-  },
-
-  hashPassword(password) {
-    return bcrypt.hash(password, 12);
   }
   
 };
