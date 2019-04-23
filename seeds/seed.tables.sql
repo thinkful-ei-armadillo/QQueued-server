@@ -1,7 +1,7 @@
 BEGIN;
 TRUNCATE
-  "user",
-  "queue";
+  "queue",
+  "user";
 
 INSERT INTO "user"("id", "username", "title", "name", "password")
 VALUES
