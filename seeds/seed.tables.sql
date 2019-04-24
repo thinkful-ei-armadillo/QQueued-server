@@ -1,5 +1,6 @@
 BEGIN;
 TRUNCATE
+  "pointers",
   "queue",
   "user";
 
@@ -55,13 +56,16 @@ VALUES
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
   );
   
-  INSERT INTO "queue" ("id", "description", "user_id", "mentor_id", "dequeue", "completed")
-
+  INSERT INTO "queue" ("id", "description", "user_id", "mentor_id", "dequeue", "completed", "next")
   VALUES
-    (1, 'help me i dont know what im doing', 2, 7, TRUE, FALSE),
-    (2, 'help me i dont know what im doing', 3, 6, TRUE, FALSE),
-    (3, 'help me i dont know what im doing', 4, NULL, FALSE, FALSE),
-    (4, 'help me i dont know what im doing', 5, NULL, FALSE, FALSE),
-    (5, 'help me i dont know what im doing', 6, NULL, FALSE, FALSE);
-    
+    (1, 'help me i dont know what im doing', 2, 7, TRUE, FALSE, null),
+    (2, 'help me i dont know what im doing', 3, 6, TRUE, FALSE, null),
+    (3, 'help me i dont know what im doing', 4, NULL, FALSE, FALSE, 4),
+    (4, 'help me i dont know what im doing', 5, NULL, FALSE, FALSE, 5),
+    (5, 'help me i dont know what im doing', 6, NULL, FALSE, FALSE, null);
+
+  INSERT INTO "pointers"("id", "head", "tail")
+  VALUES
+    (1, 3, 5);
+
 COMMIT;

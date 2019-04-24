@@ -1,7 +1,7 @@
 const express = require('express');
 const AuthService = require('./auth-service');
 const { requireAuth } = require('../../middleware/jwt-auth');
-const { validateAuthRequest } = require('../auth/auth-service');
+const { validateAuthRequest } = require('../../helper/errorHandling');
 
 const authRouter = express.Router();
 const parser = express.json();
@@ -10,6 +10,7 @@ authRouter
   .route('/')
   .post(parser, (req, res, next) => {
     const { username, password } = req.body;
+ 
     const { error, isError } = validateAuthRequest(req.body);
     const loginUser = { username, password };
     const db = req.app.get('db');
@@ -22,12 +23,12 @@ authRouter
         .then(user => {
           !user
             ? res.status(400).send({ error: 'Incorrect username or password' })
-            : user;
+            : user;  return user;
         })
-        .then(user => {
+        .then(user => { 
           !AuthService.comparePasswords(loginUser.password, user.password)
             ? res.status(400).send({ error: 'Incorrect username or password' })
-            : user;
+            : user; return user;
         })
         .then(user => {
           const sub = user.username;
