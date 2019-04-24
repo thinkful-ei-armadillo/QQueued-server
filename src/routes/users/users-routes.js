@@ -2,11 +2,21 @@ const express = require('express');
 const usersRouter = express.Router();
 const parser = express.json();
 const UserService = require('./users-service');
-const path = require('path');
+const { requireAuth } = require('../../middleware/jwt-auth');
 const { validatePassword, validateUserRequest } = require('../../helper/errorHandling');
 
 usersRouter
   .route('/')
+  .get(requireAuth, (req, res, next) => {
+    UserService
+      .getUsers(req.app.get('db'))
+      .then(users => {
+        !users
+          ? res.status(400).send({ error: 'Can not get users from the database' })
+          : res.status(200).send(users);
+      })
+      .catch(next);
+  })
   .post(parser, (req, res, next) => {
     const { password, username, title, name } = req.body;
     const db = req.app.get('db');

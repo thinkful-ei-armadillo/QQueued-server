@@ -20,7 +20,7 @@ app.use(cors());
 app.use(helmet());
 app.use('/api/users', usersRoute);
 app.use('/api/auth', authRoute);
-app.use('/api/slack', slackRouter)
+app.use('/api/slack', slackRouter);
 
 
 app.use(function errorHandler(error, req, res, next) {
