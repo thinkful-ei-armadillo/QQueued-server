@@ -2,6 +2,12 @@ const express = require("express");
 const slackRouter = express.Router();
 const parser = express.json();
 const slackService = require("./slackService");
+const request = require('request')
+require('dotenv').config();
+const config = require('../../config');
+const rp = require('request-promise');
+const fetch = require("node-fetch");
+
 
 slackRouter.route("/").post(parser, async (req, res, next) => {
   const db = req.app.get("db");
@@ -9,9 +15,9 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
 
   try {
     const newTicket = {
-      description: text,  // question from student
-      user_id: user_name,  // user's slack handle
-      slack_user_id: user_id  // user's slack user id
+      description: text, // question from student
+      user_id: user_name, // user's slack handle
+      slack_user_id: user_id // user's slack user id
     };
 
     const resp = `Hello ${user_name}, help is on the way!`;
@@ -32,7 +38,28 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+})
+slackRouter.route('/message')
+  .get(parser, (req,res,next) => {
+    
+    fetch(`${config.SLACK_ENDPOINT}/im.open`, {
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${config.SLACK_TOKEN}`
+      },
+      method: "POST",
+      body: JSON.stringify({
+        user: "UJ3CMD8UV"
+      })
+    })
+    .then(res =>{
+      if(!res.ok){
+        throw new Error(res.message)
+      }
+      return res.json()
+    })
 });
+
 
 module.exports = slackRouter;
 
