@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const usersRoute = require('./routes/users/usersRoutes');
+const authRoute = require('./routes/auth/auth-routes');
 const { NODE_ENV } = require('./config');
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
 app.use('/api/users', usersRoute);
+app.use('api/auth', authRoute);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;

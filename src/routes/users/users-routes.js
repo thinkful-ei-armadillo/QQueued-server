@@ -1,9 +1,9 @@
 const express = require('express');
 const usersRouter = express.Router();
 const parser = express.json();
-const UserService = require('./usersService');
+const UserService = require('./users-service');
 const path = require('path');
-const {validatePassword, validateUserRequest} = require('../../helper/errorHandling');
+const { validatePassword, validateUserRequest } = require('../../helper/errorHandling');
 
 usersRouter
   .route('/')

@@ -8,10 +8,32 @@ const errorHandling = {
       error: ''
     };
 
-    for (const key of ['username', 'password']) {
+    for (const key of ['username', 'password', 'title', 'name']) {
       if (!body[key]) {
         result.error = `Missing '${key}' in request body`;
         result.isError = true;
+        return result;
+      }
+    }
+    return result;
+  },
+
+  validateAuthRequest(body) {
+    let result = {
+      isError: false,
+      error: ''
+    };
+
+    for (const key of ['username', 'password']) {
+      if (!body[key]) {
+        result.isError = true;
+        result.error = `Missing "${key}" in request body`;
+        return result;
+      }
+
+      if (body.key === null) {
+        result.isError = true;
+        result.error = `Missing a value for "${key}"`;
         return result;
       }
     }
