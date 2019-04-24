@@ -1,6 +1,6 @@
 CREATE TABLE "queue" (
   "id" SERIAL PRIMARY KEY,
-  "desc" TEXT NOT NULL,
+  "description" TEXT NOT NULL,
   "user_id" INTEGER REFERENCES "user"(id)
     ON DELETE CASCADE NOT NULL,
   "mentor_id" INTEGER REFERENCES "user"(id)
