@@ -4,7 +4,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const usersRoute = require('./routes/users/usersRoutes');
-const slackRouter = require('./routes/slack/slackRoute')
+const slackRouter = require('./routes/slack/slackRoute');
+const queueRoute = require('./routes/queue/queueRoute');
 const { NODE_ENV } = require('./config');
 
 const app = express();
@@ -17,7 +18,8 @@ app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
 app.use('/api/users', usersRoute);
-app.use('/api/slack', slackRouter)
+app.use('/api/slack', slackRouter);
+app.use('/api/queue', queueRoute);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
