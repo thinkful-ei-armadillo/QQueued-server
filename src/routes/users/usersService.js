@@ -18,7 +18,7 @@ const usersService = {
       .insert(newUser)
       .into('user')
       .returning('*')
-      .then(([user]) => user);
+      .then(([user]) => user );
   },
 
   serializeUser(user) {

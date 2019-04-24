@@ -57,10 +57,10 @@ VALUES
 
   INSERT INTO "queue"("id", "desc", "user_id", "mentor_id", "dequeue", "completed")
   VALUES
-    (1, "help me i dont know what im doing", 2, 7, TRUE, FALSE),
-    (2, "help me i dont know what im doing", 3, 6, TRUE, FALSE),
-    (3, "help me i dont know what im doing", 4, NULL, FALSE, FALSE),
-    (4, "help me i dont know what im doing", 5, NULL, FALSE, FALSE),
-    (5, "help me i dont know what im doing", 6, NULL, FALSE, FALSE);
+    (1, 'help me i dont know what im doing', 2, 7, TRUE, FALSE),
+    (2, 'help me i dont know what im doing', 3, 6, TRUE, FALSE),
+    (3, 'help me i dont know what im doing', 4, NULL, FALSE, FALSE),
+    (4, 'help me i dont know what im doing', 5, NULL, FALSE, FALSE),
+    (5, 'help me i dont know what im doing', 6, NULL, FALSE, FALSE);
     
 COMMIT;

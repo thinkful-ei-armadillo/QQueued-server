@@ -8,41 +8,56 @@ const {validatePassword, validateUserRequest} = require('../../helper/errorHandl
 usersRouter
   .route('/')
   .post(parser, (req, res, next) => {
-    const { password, username } = req.body;
+    const { password, username, title, name } = req.body;
     const db = req.app.get('db');
-    
-
     const { isError, error } = validateUserRequest(req.body);
-    const passwordError = validatePassword(password);
-    const userNameExists = UserService.validateUserName(db, username);
-  
-    // error handling
-    isError
+
+    /* isError
       ? res.status(400).send(error)
       : passwordError
         ? res.status(400).send({ error: passwordError })
         : userNameExists
           ? res.status(400).send({ error: 'Username already taken' })
+          : ''; */
+    
+    if (isError) {
+      return res.status(400).send(error);
+    } else {
+      UserService
+        .hashPassword(password)
+        .then(hash => {
+          const passwordError = validatePassword(password);
+          if (passwordError) {
+            return res.status(400).send({ error: passwordError });
+          }
           
-        // api response
-          : UserService
-            .hashPassword(password)
-            .then(hash => {
-              return {
-                username,
-                password: hash
-              };
-            })
-            .then(newUser => {
-              return UserService.insertUser(db, newUser);
-            })
-            .then(user => {
-              res
-                .status(201)
-                .location(path.posix.join(req.originalUrl, `/${user.id}`))
-                .json(UserService.serializeUser(user));
-            })
-            .catch(next);
+          return {
+            username,
+            name,
+            password: hash,
+            title
+          };
+        })
+        .then(async (newUser) => {
+          await UserService.validateUserName(db, newUser.username)
+            ? res.status(400).send({ error: 'Username already taken' })
+            : UserService.insertUser(db, newUser);
+        })
+        .then(user => {
+          return res
+            .status(201)
+            .json(user);
+        })
+        .catch(next);
+    }
+    
+   
+
+    // error handling
+    
+          
+    // api response
+   
   });
 
 module.exports = usersRouter;
