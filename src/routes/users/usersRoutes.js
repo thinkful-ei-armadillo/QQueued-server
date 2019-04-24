@@ -12,14 +12,6 @@ usersRouter
     const db = req.app.get('db');
     const { isError, error } = validateUserRequest(req.body);
 
-    /* isError
-      ? res.status(400).send(error)
-      : passwordError
-        ? res.status(400).send({ error: passwordError })
-        : userNameExists
-          ? res.status(400).send({ error: 'Username already taken' })
-          : ''; */
-    
     if (isError) {
       return res.status(400).send(error);
     } else {
@@ -50,14 +42,6 @@ usersRouter
         })
         .catch(next);
     }
-    
-   
-
-    // error handling
-    
-          
-    // api response
-   
   });
 
 module.exports = usersRouter;
