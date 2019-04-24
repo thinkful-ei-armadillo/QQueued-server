@@ -34,6 +34,8 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
   }
 });
 
+module.exports = slackRouter;
+
 /*
  This the response we get from slack when users send a help ticket.
 
