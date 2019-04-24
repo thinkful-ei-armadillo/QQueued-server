@@ -6,6 +6,12 @@ const usersService = {
     return bcrypt.hash(password, 12);
   },
 
+  getUsers(db) {
+    return db
+      .select('*')
+      .from('user');
+  },
+
   validateUserName(db, username) {
     return db('user')
       .where({ username })
