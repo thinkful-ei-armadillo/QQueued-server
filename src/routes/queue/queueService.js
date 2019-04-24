@@ -3,7 +3,17 @@ const QueueService ={
     return db.from('pointers').select('*').first();
   },
   getAll(db) {
-    return db.from('queue').select('*').where({completed: false});
+    return db.from('queue')
+    .select('queue.description', 
+      'queue.id',
+      'queue.user_id',
+      'queue.completed', 
+      'queue.dequeue', 
+      'queue.next',
+      'user.name as studentName',
+   )
+    .where({completed: false})
+    .rightJoin('user','queue.user_id', 'user.id');
   }
 };
 module.exports = QueueService;
