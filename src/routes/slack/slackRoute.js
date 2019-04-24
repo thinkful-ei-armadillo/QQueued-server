@@ -2,12 +2,9 @@ const express = require("express");
 const slackRouter = express.Router();
 const parser = express.json();
 const slackService = require("./slackService");
-const request = require('request')
-require('dotenv').config();
-const config = require('../../config');
-const rp = require('request-promise');
-const fetch = require("node-fetch");
-
+require("dotenv").config();
+const config = require("../../config");
+const axios = require("axios");
 
 slackRouter.route("/").post(parser, async (req, res, next) => {
   const db = req.app.get("db");
@@ -38,28 +35,28 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
-slackRouter.route('/message')
-  .get(parser, (req,res,next) => {
-    
-    fetch(`${config.SLACK_ENDPOINT}/im.open`, {
-      headers: {
-        "content-type": "application/json",
-        "Authorization": `Bearer ${config.SLACK_TOKEN}`
-      },
-      method: "POST",
-      body: JSON.stringify({
-        user: "UJ3CMD8UV"
-      })
-    })
-    .then(res =>{
-      if(!res.ok){
-        throw new Error(res.message)
-      }
-      return res.json()
-    })
 });
+// UJ3CMD8UV
+slackRouter.route("/message").post(parser, async (req, res, next) => {
 
+  const { user , text } = req.body
+  let con = {
+    headers: {
+      Authorization: `Bearer xoxb-604007784147-616587196432-zoDj4jJtaBy77ZfLw2gpgEOu`
+    }
+  };
+  const data = await axios
+    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: "UJ3CMD8UV" }, con)
+    .then(data => data.data)
+    .catch(err => next(err));
+
+  const message = await axios
+    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: data.channel.id, text: "hello jon" }, con)
+    .then(data => data.data)
+    .catch(err => next(err));
+
+  res.json(message)
+});
 
 module.exports = slackRouter;
 
