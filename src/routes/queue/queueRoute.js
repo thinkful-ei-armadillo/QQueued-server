@@ -9,8 +9,8 @@ queueRouter
 
 queueRouter
   .get('/', async (req, res, next) => {
-    const list = await QueueService.getAll(req.app.get('db'));
-    console.log('list', list)
+    // const list = await QueueService.getAll(req.app.get('db'));
+    // console.log('list', list)
 
   })
 
