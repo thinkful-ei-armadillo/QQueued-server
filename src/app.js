@@ -3,11 +3,12 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const usersRoute = require('./routes/users/usersRoutes');
-const authRoute = require('./routes/auth/auth-routes');
+// const usersRoute = require('./routes/users/users-routes/');
+// const authRoute = require('./routes/auth/auth-routes');
 const slackRouter = require('./routes/slack/slackRoute')
-
 const { NODE_ENV } = require('./config');
+const proxy = require('http-proxy-middleware');
+
 
 const app = express();
 
@@ -18,9 +19,10 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
-app.use('/api/users', usersRoute);
-app.use('/api/auth', authRoute);
+// app.use('/api/users', usersRoute);
+// app.use('/api/auth', authRoute);
 app.use('/api/slack', slackRouter)
+app.use('/api', proxy({ target: 'https://slack.com/api', changeOrigin: true, logLevel: 'debug' }))
 
 
 app.use(function errorHandler(error, req, res, next) {
