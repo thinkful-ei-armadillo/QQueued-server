@@ -9,15 +9,15 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
 
   try {
     const newTicket = {
-      description: text,
-      user_id: user_name,
-      slack_user_id: user_id
+      description: text,  // question from student
+      user_id: user_name,  // user's slack handle
+      slack_user_id: user_id  // user's slack user id
     };
 
     const resp = `Hello ${user_name}, help is on the way!`;
-    await slackService.insertUser(db, newTicket);
-    
-    // This is the payload that we are sending in response to the 
+    await slackService.insertTicket(db, newTicket);
+
+    // This is the payload that we are sending in response to the
     // student's ticket on slack
     // Hard coding estimated wait time for now.
     res.status(200).json({
