@@ -36,13 +36,12 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
     next(error);
   }
 });
-// UJ3CMD8UV
 slackRouter.route("/message").post(parser, async (req, res, next) => {
-
   const { user , text } = req.body
+  
   let con = {
     headers: {
-      Authorization: `Bearer xoxb-604007784147-616587196432-zoDj4jJtaBy77ZfLw2gpgEOu`
+      Authorization: `Bearer ${config.SLACK_TOKEN}`
     }
   };
   const data = await axios

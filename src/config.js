@@ -5,5 +5,5 @@ module.exports = {
   /* JWT_SECRET: process.env.JWT_SECRET || 'blogful-client-auth-token',
   JWT_EXPIRY: process.env.JWT_EXPIRY || '3h' */
   SLACK_ENDPOINT:'https://slack.com/api',
-  SLACK_TOKEN: process.env.SLACK_TOKEN
+  SLACK_TOKEN: process.env.SLACK_BOT
 };

@@ -7,7 +7,6 @@ const helmet = require('helmet');
 // const authRoute = require('./routes/auth/auth-routes');
 const slackRouter = require('./routes/slack/slackRoute')
 const { NODE_ENV } = require('./config');
-const proxy = require('http-proxy-middleware');
 
 
 const app = express();
@@ -22,7 +21,6 @@ app.use(helmet());
 // app.use('/api/users', usersRoute);
 // app.use('/api/auth', authRoute);
 app.use('/api/slack', slackRouter)
-app.use('/api', proxy({ target: 'https://slack.com/api', changeOrigin: true, logLevel: 'debug' }))
 
 
 app.use(function errorHandler(error, req, res, next) {
