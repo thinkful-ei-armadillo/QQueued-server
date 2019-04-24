@@ -2,6 +2,9 @@ const express = require("express");
 const slackRouter = express.Router();
 const parser = express.json();
 const slackService = require("./slackService");
+require("dotenv").config();
+const config = require("../../config");
+const axios = require("axios");
 
 slackRouter.route("/").post(parser, async (req, res, next) => {
   const db = req.app.get("db");
@@ -9,9 +12,9 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
 
   try {
     const newTicket = {
-      description: text,  // question from student
-      user_id: user_name,  // user's slack handle
-      slack_user_id: user_id  // user's slack user id
+      description: text, // question from student
+      user_id: user_name, // user's slack handle
+      slack_user_id: user_id // user's slack user id
     };
 
     const resp = `Hello ${user_name}, help is on the way!`;
@@ -32,6 +35,26 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+slackRouter.route("/message").post(parser, async (req, res, next) => {
+  const { user , text } = req.body
+  
+  let con = {
+    headers: {
+      Authorization: `Bearer ${config.SLACK_TOKEN}`
+    }
+  };
+  const data = await axios
+    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: "UJ3CMD8UV" }, con)
+    .then(data => data.data)
+    .catch(err => next(err));
+
+  const message = await axios
+    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: data.channel.id, text: "hello jon" }, con)
+    .then(data => data.data)
+    .catch(err => next(err));
+
+  res.json(message)
 });
 
 module.exports = slackRouter;
