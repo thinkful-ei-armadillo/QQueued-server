@@ -4,56 +4,63 @@ TRUNCATE
   "queue",
   "user";
 
-INSERT INTO "user"("id", "user_name", "title", "name", "password")
+INSERT INTO "user"("id", "user_name", "title", "name", "password","slack_user_id")
 VALUES
   (
     1,
     'admin',
     'mentor',
     'Dunder Mifflin Admin',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   ),
   (
     2,
     'student1',
     'student',
     'Matthew',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   ),
   (
     3,
     'student2',
     'student',
     'Hunter',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   ),
   (
     4,
     'student3',
     'student',
     'Jonathan',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   ),
   (
     5,
     'student4',
     'student',
     'Robin',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   ),
   (
     6,
     'professX',
     'mentor',
     'Xavier',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   ),
     (
     7,
     'Queen D',
     'mentor',
     'Daenerys Targaryen',
-    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
+    '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
+    'UJ3CMD8UV'
   );
   
   INSERT INTO "queue" ("id", "description", "user_name", "mentor_user_name", "dequeue", "completed", "next")
