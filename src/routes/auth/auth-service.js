@@ -3,14 +3,14 @@ const config = require('../../config');
 const jwt = require('jsonwebtoken');
 
 const AuthService = {
-  getUserWithUserName(db, username) {
+  getUserWithUserName(db, user_name) {
     return db('user')
-      .where({ username })
+      .where({ user_name })
       .first();
   },
-  getUser(db, username) {
+  getUser(db, user_name) {
     return db('user')
-      .where({ username })
+      .where({ user_name})
       .first();
   },
 

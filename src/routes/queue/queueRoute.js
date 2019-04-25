@@ -14,7 +14,7 @@ queueRouter
     const list = await QueueService.getAll(req.app.get('db'));
     const queueList = list.filter(listItem => listItem.id >= pointer.head)
     const currentlyBeinghelped = list.filter(list => list.dequeue === true && list.completed === false)
-     console.log(list)
+
     res.json({
       queueList,
       currentlyBeinghelped

@@ -5,7 +5,7 @@ module.exports = {
   DB_URL: process.env.DB_URL,
   //DATABASE_URL || 'postgres://jon@localhost:5432/capstone-III',
   JWT_SECRET: process.env.JWT_SECRET || 'blogful-client-auth-token',
-  JWT_EXPIRY: process.env.JWT_EXPIRY || '3h' 
+  JWT_EXPIRY: process.env.JWT_EXPIRY || '3h',
   SLACK_ENDPOINT:'https://slack.com/api',
   SLACK_TOKEN: process.env.SLACK_BOT
 };

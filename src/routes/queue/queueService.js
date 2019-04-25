@@ -6,7 +6,7 @@ const QueueService ={
     return db.from('queue')
     .select('queue.description', 
       'queue.id',
-      'queue.user_id',
+      'queue.user_name',
       'queue.completed', 
       'queue.dequeue', 
       'queue.next',
@@ -14,8 +14,8 @@ const QueueService ={
       'mentor.name as mentorName'
    )
     .where({completed: false})
-    .rightJoin('user','queue.user_id', 'user.id')
-    .leftJoin('user AS mentor', 'queue.mentor_id', 'mentor.id');
+    .rightJoin('user','queue.user_name', 'user.user_name')
+    .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name');
   }
 };
 module.exports = QueueService;

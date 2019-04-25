@@ -4,7 +4,7 @@ TRUNCATE
   "queue",
   "user";
 
-INSERT INTO "user"("id", "username", "title", "name", "password")
+INSERT INTO "user"("id", "user_name", "title", "name", "password")
 VALUES
   (
     1,
@@ -56,13 +56,13 @@ VALUES
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
   );
   
-  INSERT INTO "queue" ("id", "description", "user_id", "mentor_id", "dequeue", "completed", "next")
+  INSERT INTO "queue" ("id", "description", "user_name", "mentor_user_name", "dequeue", "completed", "next")
   VALUES
-    (1, 'help me i dont know what im doing', 2, 7, TRUE, FALSE, null),
-    (2, 'help me i dont know what im doing', 3, 6, TRUE, FALSE, null),
-    (3, 'help me i dont know what im doing', 4, NULL, FALSE, FALSE, 4),
-    (4, 'help me i dont know what im doing', 5, NULL, FALSE, FALSE, 5),
-    (5, 'help me i dont know what im doing', 6, NULL, FALSE, FALSE, null);
+    (1, 'help me i dont know what im doing', 'student2', 'professX', TRUE, FALSE, null),
+    (2, 'help me i dont know what im doing', 'student3', 'Queen D', TRUE, FALSE, null),
+    (3, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, 4),
+    (4, 'help me i dont know what im doing', 'student1', NULL, FALSE, FALSE, 5),
+    (5, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, null);
 
   INSERT INTO "pointers"("id", "head", "tail")
   VALUES

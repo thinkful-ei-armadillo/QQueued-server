@@ -1,9 +1,9 @@
 CREATE TABLE "queue" (
   "id" SERIAL PRIMARY KEY,
   "description" TEXT NOT NULL,
-  "user_id" INTEGER REFERENCES "user"(id)
+  "user_name" TEXT REFERENCES "user"(user_name)
     ON DELETE CASCADE NOT NULL,
-  "mentor_id" INTEGER REFERENCES "user"(id)
+  "mentor_user_name" TEXT REFERENCES "user"(user_name)
     ON DELETE CASCADE DEFAULT NULL, 
   "dequeue" BOOLEAN NOT NULL DEFAULT FALSE,
   "completed" BOOLEAN NOT NULL DEFAULT FALSE,
