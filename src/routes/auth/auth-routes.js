@@ -31,7 +31,7 @@ authRouter
             : user; return user;
         })
         .then(user => {
-          const sub = user.username;
+          const sub = user.user_name;
           const payload = {
             id: user.id,
             name: user.name
