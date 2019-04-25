@@ -30,10 +30,10 @@ authRouter
             ? res.status(400).send({ error: 'Incorrect username or password' })
             : user; return user;
         })
-        .then(user => {
+        .then(user => { 
           const sub = user.user_name;
           const payload = {
-            id: user.id,
+            user_id: user.id,
             name: user.name,
             title: user.title
           };
@@ -45,7 +45,7 @@ authRouter
   .put(requireAuth, (req, res) => {
     const sub = req.user.username;
     const payload = {
-      id: req.user.id,
+      user_id: req.user.id,
       name: req.user.name,
       title: req.user.title
     };
