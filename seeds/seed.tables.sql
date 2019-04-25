@@ -4,7 +4,7 @@ TRUNCATE
   "queue",
   "user";
 
-INSERT INTO "user"("id", "user_name", "title", "name", "password","slack_user_id")
+INSERT INTO "user"("id", "user_name", "title", "name", "password")
 VALUES
   (
     1,
@@ -12,7 +12,6 @@ VALUES
     'mentor',
     'Dunder Mifflin Admin',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
   ),
   (
     2,
@@ -20,7 +19,6 @@ VALUES
     'student',
     'Matthew',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
   ),
   (
     3,
@@ -28,7 +26,7 @@ VALUES
     'student',
     'Hunter',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
+    
   ),
   (
     4,
@@ -36,7 +34,7 @@ VALUES
     'student',
     'Jonathan',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
+    
   ),
   (
     5,
@@ -44,7 +42,7 @@ VALUES
     'student',
     'Robin',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
+    
   ),
   (
     6,
@@ -52,7 +50,7 @@ VALUES
     'mentor',
     'Xavier',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
+    
   ),
     (
     7,
@@ -60,16 +58,16 @@ VALUES
     'mentor',
     'Daenerys Targaryen',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG',
-    'UJ3CMD8UV'
+    
   );
   
-  INSERT INTO "queue" ("id", "description", "user_name", "mentor_user_name", "dequeue", "completed", "next")
+  INSERT INTO "queue" ("id", "description", "user_name", "mentor_user_name", "dequeue", "completed", "next", "slack_user_id")
   VALUES
-    (1, 'help me i dont know what im doing', 'student2', 'professX', TRUE, FALSE, null),
-    (2, 'help me i dont know what im doing', 'student3', 'Queen D', TRUE, FALSE, null),
-    (3, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, 4),
-    (4, 'help me i dont know what im doing', 'student1', NULL, FALSE, FALSE, 5),
-    (5, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, null);
+    (1, 'help me i dont know what im doing', 'student2', 'professX', TRUE, FALSE, null, 'UJ3CMD8UV'),
+    (2, 'help me i dont know what im doing', 'student3', 'Queen D', TRUE, FALSE, null, 'UJ3CMD8UV'),
+    (3, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, 4, 'UJ3CMD8UV'),
+    (4, 'help me i dont know what im doing', 'student1', NULL, FALSE, FALSE, 5, 'UJ3CMD8UV'),
+    (5, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, null, 'UJ3CMD8UV');
 
   INSERT INTO "pointers"("id", "head", "tail")
   VALUES
