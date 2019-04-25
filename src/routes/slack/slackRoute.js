@@ -14,7 +14,7 @@ slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (re
   try {
     const newTicket = {
       description: text, // question from student
-      user_name: user_name, // user's slack handle
+      slack_handle: user_name, // user's slack handle
       slack_user_id: user_id // user's slack user id
     };
 
