@@ -5,8 +5,9 @@ const slackService = require('./slackService');
 require('dotenv').config();
 const config = require('../../config');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 
-slackRouter.route('/').post(parser, async (req, res, next) => {
+slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
   const db = req.app.get('db');
   const { user_id, user_name, text } = req.body;
 
