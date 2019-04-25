@@ -51,7 +51,7 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
     .catch(err => next(err));
 
   const message = await axios
-    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: data.channel.id, text: 'hello jon' }, con)
+    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: data.channel.id, text: text }, con)
     .then(data => data.data)
     .catch(err => next(err));
 
