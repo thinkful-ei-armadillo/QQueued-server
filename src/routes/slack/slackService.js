@@ -1,7 +1,7 @@
 const slackService = {
   insertTicket(db, ticket){
     return db('queue')
-      .insert('ticket')
+      .insert(ticket)
       .returning('*')
       .then(([ticket]) => ticket );
   }

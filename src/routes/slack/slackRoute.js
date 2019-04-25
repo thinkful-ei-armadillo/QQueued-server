@@ -13,7 +13,7 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
   try {
     const newTicket = {
       description: text, // question from student
-      user_id: user_name, // user's slack handle
+      user_name: user_name, // user's slack handle
       slack_user_id: user_id // user's slack user id
     };
 

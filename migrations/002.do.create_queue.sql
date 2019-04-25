@@ -7,7 +7,7 @@ CREATE TABLE "queue" (
     ON DELETE CASCADE DEFAULT NULL, 
   "dequeue" BOOLEAN NOT NULL DEFAULT FALSE,
   "completed" BOOLEAN NOT NULL DEFAULT FALSE,
-  "slack_user_id" INTEGER,
+  "slack_user_id" TEXT,
   "next" INTEGER REFERENCES "queue"(id)
     ON DELETE SET NULL
 

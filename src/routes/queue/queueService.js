@@ -10,6 +10,7 @@ const QueueService ={
       'queue.completed', 
       'queue.dequeue', 
       'queue.next',
+      'queue.slack_user_id',
       'user.name as studentName',
       'mentor.name as mentorName'
    )
@@ -18,4 +19,6 @@ const QueueService ={
     .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name');
   }
 };
+
+//slack_user-id
 module.exports = QueueService;
