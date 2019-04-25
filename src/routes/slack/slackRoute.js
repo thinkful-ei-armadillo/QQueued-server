@@ -1,13 +1,14 @@
-const express = require("express");
+const express = require('express');
 const slackRouter = express.Router();
 const parser = express.json();
-const slackService = require("./slackService");
-require("dotenv").config();
-const config = require("../../config");
-const axios = require("axios");
+const slackService = require('./slackService');
+require('dotenv').config();
+const config = require('../../config');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 
-slackRouter.route("/").post(parser, async (req, res, next) => {
-  const db = req.app.get("db");
+slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
+  const db = req.app.get('db');
   const { user_id, user_name, text } = req.body;
 
   try {
@@ -24,11 +25,11 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
     // student's ticket on slack
     // Hard coding estimated wait time for now.
     res.status(200).json({
-      response_type: "in_channel",
+      response_type: 'in_channel',
       text: resp,
       attachments: [
         {
-          text: "  Your estimated wait time is 10 mins"
+          text: '  Your estimated wait time is 10 mins'
         }
       ]
     });
@@ -36,8 +37,8 @@ slackRouter.route("/").post(parser, async (req, res, next) => {
     next(error);
   }
 });
-slackRouter.route("/message").post(parser, async (req, res, next) => {
-  const { user , text } = req.body
+slackRouter.route('/message').post(parser, async (req, res, next) => {
+  const { user , text } = req.body;
   
   let con = {
     headers: {
@@ -45,16 +46,16 @@ slackRouter.route("/message").post(parser, async (req, res, next) => {
     }
   };
   const data = await axios
-    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: "UJ3CMD8UV" }, con)
+    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: 'UJ3CMD8UV' }, con)
     .then(data => data.data)
     .catch(err => next(err));
 
   const message = await axios
-    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: data.channel.id, text: "hello jon" }, con)
+    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: data.channel.id, text: 'hello jon' }, con)
     .then(data => data.data)
     .catch(err => next(err));
 
-  res.json(message)
+  res.json(message);
 });
 
 module.exports = slackRouter;

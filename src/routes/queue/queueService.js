@@ -4,19 +4,19 @@ const QueueService ={
   },
   getAll(db) {
     return db.from('queue')
-    .select('queue.description', 
-      'queue.id',
-      'queue.user_name',
-      'queue.completed', 
-      'queue.dequeue', 
-      'queue.next',
-      'queue.slack_user_id',
-      'user.name as studentName',
-      'mentor.name as mentorName'
-   )
-    .where({completed: false})
-    .rightJoin('user','queue.user_name', 'user.user_name')
-    .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name');
+      .select('queue.description', 
+        'queue.id',
+        'queue.user_name',
+        'queue.completed', 
+        'queue.dequeue', 
+        'queue.next',
+        'queue.slack_user_id',
+        'user.name as studentName',
+        'mentor.name as mentorName'
+      )
+      .where({completed: false})
+      .rightJoin('user','queue.user_name', 'user.user_name')
+      .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name');
   }
 };
 
