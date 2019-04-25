@@ -5,9 +5,6 @@ const parser = express.json();
 
 const queueRouter = express.Router();
 
-// queueRouter
-//   .use(requireAuth);
-
 queueRouter
   .route('/')
   .all(requireAuth)
@@ -41,7 +38,30 @@ queueRouter
      await QueueService.updateQueue(req.app.get('db'), pointer.tail, newQueueData.id)
      await QueueService.updateTailPointer(req.app.get('db'), newQueueData.id)
      res.json('you\'ve been added')
+     next()
     }catch (error) {
+      next(error);
+    }
+  })
+  .patch(parser, async (req,res,next)=>{
+    try {
+      const { title, user_name }  = req.user;
+
+      if(title !== 'mentor'){
+        return res.status(400).json({
+          error: `Sorry Only mentors can update queue`
+        });
+      }
+
+      const pointer = await QueueService.getPointers(req.app.get('db'));
+      const next = await QueueService.getById(req.app.get('db'), pointer.head);
+      const currentInLine = {mentor_user_name: user_name, dequeue: true, next: null}
+      
+      await QueueService.updateHeadPointer(req.app.get('db'), next.next);
+      await QueueService.dequeue(req.app.get('db'), pointer.head, currentInLine)
+      next()
+
+    } catch (error){
       next(error);
     }
   })

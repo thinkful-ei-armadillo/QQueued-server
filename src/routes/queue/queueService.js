@@ -41,6 +41,12 @@ const QueueService ={
   },
   updateTailPointer(db, newTailId){
     return db.into('pointers').update({tail: newTailId});
+  },
+  updateHeadPointer(db, newHeadId){
+    return db.into('pointers').update({head: newHeadId});
+  },
+  dequeue(db, idToUpdate, data){
+    return db.into('queue').where({id: idToUpdate}).update(data);
   }
 };
 
