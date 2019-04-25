@@ -7,7 +7,7 @@ const queueRouter = express.Router();
 
 queueRouter
   .route('/')
-  // .all(requireAuth)
+  .all(requireAuth)
   .get( async (req, res, next) => {
     try{
       const pointer = await QueueService.getPointers(req.app.get('db'));
@@ -37,7 +37,9 @@ queueRouter
 
      await QueueService.updateQueue(req.app.get('db'), pointer.tail, newQueueData.id)
      await QueueService.updateTailPointer(req.app.get('db'), newQueueData.id)
-     res.json('you\'ve been added')
+     res.json({
+       studentName: req.user.name
+     })
      next()
     }catch (error) {
       next(error);
@@ -58,7 +60,8 @@ queueRouter
       const currentInLine = {mentor_user_name: user_name, dequeue: true, next: null}
       
       await QueueService.updateHeadPointer(req.app.get('db'), next.next);
-      await QueueService.dequeue(req.app.get('db'), pointer.head, currentInLine)
+      await QueueService.dequeue(req.app.get('db'), pointer.head, currentInLine);
+
       next()
 
     } catch (error){
