@@ -15,7 +15,7 @@ VALUES
   ),
   (
     2,
-    'student1',
+    'matth3wn',
     'student',
     'Matthew',
     '$2a$10$fCWkaGbt7ZErxaxclioLteLUgg4Q3Rp09WW0s/wSLxDKYsaGYUpjG'
@@ -66,7 +66,7 @@ VALUES
     (1, 'help me i dont know what im doing', 'student2', 'professX', TRUE, FALSE, null, 'UJ3CMD8UV'),
     (2, 'help me i dont know what im doing', 'student3', 'Queen D', TRUE, FALSE, null, 'UJ3CMD8UV'),
     (3, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, 4, 'UJ3CMD8UV'),
-    (4, 'help me i dont know what im doing', 'student1', NULL, FALSE, FALSE, 5, 'UJ3CMD8UV'),
+    (4, 'help me i dont know what im doing', 'matth3wn', NULL, FALSE, FALSE, 5, 'UJ3CMD8UV'),
     (5, 'help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, null, 'UJ3CMD8UV');
 
   INSERT INTO "pointers"("id", "head", "tail")

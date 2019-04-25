@@ -7,7 +7,7 @@ const queueRouter = express.Router();
 
 queueRouter
   .route('/')
-  .all(requireAuth)
+  // .all(requireAuth)
   .get( async (req, res, next) => {
     try{
       const pointer = await QueueService.getPointers(req.app.get('db'));
