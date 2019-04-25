@@ -30,11 +30,12 @@ authRouter
             ? res.status(400).send({ error: 'Incorrect username or password' })
             : user; return user;
         })
-        .then(user => {
-          const sub = user.username;
+        .then(user => { 
+          const sub = user.user_name;
           const payload = {
             id: user.id,
-            name: user.name
+            name: user.name,
+            title: user.title
           };
           res.send({ authToken: AuthService.createJwt(sub, payload) });
         })
@@ -45,7 +46,8 @@ authRouter
     const sub = req.user.username;
     const payload = {
       id: req.user.id,
-      name: req.user.name
+      name: req.user.name,
+      title: req.user.title
     };
     res.send({ authToken: AuthService.createJwt(sub, payload) });
   });
