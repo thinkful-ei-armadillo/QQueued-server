@@ -7,7 +7,6 @@ const queueRouter = express.Router();
 
 queueRouter
   .route('/')
-  .all(requireAuth)
   .get( async (req, res, next) => {
     try{
       const pointer = await QueueService.getPointers(req.app.get('db'));
@@ -25,7 +24,7 @@ queueRouter
     }
 
   })
-  .post(parser, async (req,res,next)=>{
+  .post(parser, requireAuth,async (req,res,next)=>{
     try{
      const pointer = await QueueService.getPointers(req.app.get('db'));
      const {user_name} = req.user;
@@ -45,7 +44,7 @@ queueRouter
       next(error);
     }
   })
-  .patch(parser, async (req,res,next)=>{
+  .patch(parser, requireAuth ,async (req,res,next)=>{
     try {
       const { title, user_name }  = req.user;
 
