@@ -12,11 +12,13 @@ queueRouter
     try {
       const {
         queueList,
-        currentlyBeingHelped
+        currentlyBeingHelped,
+        hasBeenHelpedList
       } = await helperQueue.getQueueData(req.app.get('db'));
       res.json({
         queueList,
-        currentlyBeingHelped
+        currentlyBeingHelped,
+        hasBeenHelpedList
       });
     } catch (error) {
       next(error);
