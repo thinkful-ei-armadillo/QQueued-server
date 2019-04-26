@@ -22,7 +22,7 @@ queueRouter
       next(error);
     }
   })
-  .post(parser, requireAuth, async (req, res, next) => {
+  .post(requireAuth, parser, async (req, res, next) => {
     try {
       const pointer = await QueueService.getPointers(req.app.get('db'));
       const { user_name } = req.user;
@@ -62,15 +62,14 @@ queueRouter
       next(error);
     }
   })
-  .patch(parser, requireAuth, async (req, res, next) => {
+  .patch(requireAuth, async (req, res, next) => {
     try {
       const { title, user_name } = req.user;
 
-      if (title !== 'mentor') {
+      if (title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
         });
-      }
 
       const pointer = await QueueService.getPointers(req.app.get('db'));
       if (pointer.head === null) return res.status(204);
@@ -95,18 +94,45 @@ queueRouter
       }
 
       res.status(204);
+      next();
     } catch (error) {
       next(error);
     }
   });
 
 queueRouter
-  .route('/:dequeuedId')
+  .route('/:sessionId')
   .all(requireAuth)
   .patch(async (req, res, next) => {
     try {
-      console.log(req.user);
-      console.log('id', req.params.dequeueId);
+      const { title, full_name } = req.user;
+
+      if (title !== 'mentor')
+        return res.status(400).json({
+          error: `Sorry Only mentors can update queue`
+        });
+
+      const sessionToCompleteId = req.params.sessionId;
+      const currentSession = await QueueService.getById(
+        req.app.get('db'),
+        sessionToCompleteId
+      );
+
+      if (currentSession.mentorName !== full_name)
+        return res.status(400).json({
+          error: `Sorry only mentor that work with ${
+            currentSession.studentName
+          } can complete session`
+        });
+
+      const completeSession = { completed: true };
+      await QueueService.updateSessionToComplete(
+        req.app.get('db'),
+        currentSession.id,
+        completeSession
+      );
+
+      res.status(204);
     } catch (error) {
       next(error);
     }
