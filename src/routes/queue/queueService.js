@@ -11,8 +11,8 @@ const QueueService ={
         'queue.dequeue', 
         'queue.next',
         'queue.slack_user_id',
-        'user.name as studentName',
-        'mentor.name as mentorName'
+        'user.user_name as studentName',
+        'mentor.user_name as mentorName'
       )
       .where({completed: false})
       .rightJoin('user','queue.user_name', 'user.user_name')

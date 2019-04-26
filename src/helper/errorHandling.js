@@ -8,7 +8,7 @@ const errorHandling = {
       error: ''
     };
 
-    for (const key of ['username', 'password', 'title', 'name']) {
+    for (const key of ['user_name', 'password', 'title', 'full_name']) {
       if (!body[key]) {
         result.error = `Missing '${key}' in request body`;
         result.isError = true;
@@ -24,7 +24,7 @@ const errorHandling = {
       error: ''
     };
 
-    for (const key of ['username', 'password']) {
+    for (const key of ['user_name', 'password']) {
       if (!body[key]) {
         result.isError = true;
         result.error = `Missing "${key}" in request body`;
@@ -42,10 +42,10 @@ const errorHandling = {
 
   validatePassword(password) {
     if (password.length < 8) {
-      return 'Password be longer than 8 characters';
+      return 'Password must be longer than 8 characters';
     }
     if (password.length > 72) {
-      return 'Password be less than 72 characters';
+      return 'Password must be less than 72 characters';
     }
     if (password.startsWith(' ') || password.endsWith(' ')) {
       return 'Password must not start or end with empty spaces';

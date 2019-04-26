@@ -12,9 +12,9 @@ const usersService = {
       .from('user');
   },
 
-  validateUserName(db, username) {
+  validateUserName(db, user_name) {
     return db('user')
-      .where({ username })
+      .where({ user_name })
       .first()
       .then(user => !!user);
   },
@@ -30,8 +30,8 @@ const usersService = {
   serializeUser(user) {
     return {
       id: user.id,
-      name: user.name,
-      username: user.username
+      full_name: user.name,
+      user_name: user.user_name
     };
   }
 };
