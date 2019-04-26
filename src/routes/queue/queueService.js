@@ -16,7 +16,7 @@ const QueueService ={
       )
       .where({completed: false})
       .rightJoin('user','queue.user_name', 'user.user_name')
-      .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name');
+      .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name').orderBy('id', 'asc');
   },
   enqueue(db, data){
     return db
