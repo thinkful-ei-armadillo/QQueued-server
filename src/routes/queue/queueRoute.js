@@ -15,13 +15,11 @@ queueRouter
         queueList,
         currentlyBeingHelped
       });
-
     } catch (error) {
       next(error);
     }
-
   })
-  .post(parser, requireAuth,async (req,res,next)=>{
+  .post(requireAuth, parser, async (req,res,next)=>{
     try{
       const pointer = await QueueService.getPointers(req.app.get('db'));
       const {user_name} = req.user;
@@ -31,13 +29,13 @@ queueRouter
       if(!description)
         return res.status(400).json({
           error: `Missing description in request body`
-        })
+        });
   
       await QueueService.enqueue(req.app.get('db'), newQueueData)
        .then(res => newQueueData = res)
 
       if (pointer.head === null)
-        await QueueService.updateBothPointers(req.app.get('db'), newQueueData.id)
+        await QueueService.updateBothPointers(req.app.get('db'), newQueueData.id);
       else {
         await QueueService.updateTailPointer(req.app.get('db'), newQueueData.id);
         await QueueService.updateQueue(req.app.get('db'), pointer.tail, newQueueData.id);
@@ -50,16 +48,15 @@ queueRouter
       next(error);
     }
   })
-  .patch(parser, requireAuth ,async (req,res,next)=>{
+  .patch(requireAuth ,async (req,res,next)=>{
     try {
       const { title, user_name }  = req.user;
 
-      if(title !== 'mentor'){
+      if(title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
         });
-      }
-
+      
       const pointer = await QueueService.getPointers(req.app.get('db'));
       if(pointer.head === null)
         return res.status(204)
@@ -73,22 +70,39 @@ queueRouter
       }
 
       res.status(204)
- 
+      next()
     } catch (error){
       next(error);
     }
-  })
+  });
 
 queueRouter
-  .route('/:dequeuedId')
+  .route('/:sessionId')
   .all(requireAuth)
   .patch(async (req,res,next)=>{
     try{
-      console.log(req.user)
-      console.log('id', req.params.dequeueId)
+      const { title, first_name }  = req.user;
+
+      if(title !== 'mentor')
+        return res.status(400).json({
+          error: `Sorry Only mentors can update queue`
+        });
+      
+      const sessionToCompleteId = req.params.sessionId;
+      const currentSession = await QueueService.getById(req.app.get('db'), sessionToCompleteId);
+      if(currentSession.mentorName !== first_name)
+        return res.status(400).json({
+          error: `Sorry only mentor that work with ${currentSession.studentName} can complete session`
+        });
+
+      const completeSession = {completed: true}
+      await QueueService.updateSessionToComplete(req.app.get('db'), current.id, completeSession);
+
+      res.status(204)
+    
     } catch(error) {
       next(error)
     }
-  })
+  });
 
 module.exports = queueRouter;

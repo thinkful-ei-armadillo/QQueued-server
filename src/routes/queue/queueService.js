@@ -51,6 +51,9 @@ const QueueService ={
   },
   updateBothPointers(db, newHeadId){
     return db.into('pointers').update({head: newHeadId, tail: newHeadId});
+  },
+  updateSessionToComplete(db, idForSession, completed){
+    return db.into('queue').where({id: idForSession}).update(completed);
   }
 };
 
