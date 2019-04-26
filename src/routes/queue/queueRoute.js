@@ -10,11 +10,11 @@ queueRouter
   .route('/')
   .get( async (req, res, next) => {
     try{
-      const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req.app.get('db'))
+      const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req.app.get('db'));
       res.json({
         queueList,
         currentlyBeingHelped
-      });
+      })
     } catch (error) {
       next(error);
     }
@@ -41,7 +41,7 @@ queueRouter
         await QueueService.updateQueue(req.app.get('db'), pointer.tail, newQueueData.id);
       } 
       res.json({
-        studentName: req.user.name
+        studentName: req.user.full_name
       })
 
     } catch (error) {
@@ -51,7 +51,7 @@ queueRouter
   .patch(requireAuth ,async (req,res,next)=>{
     try {
       const { title, user_name }  = req.user;
-
+  
       if(title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
@@ -81,8 +81,8 @@ queueRouter
   .all(requireAuth)
   .patch(async (req,res,next)=>{
     try{
-      const { title, first_name }  = req.user;
-
+      const { title, full_name }  = req.user;
+      
       if(title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
@@ -90,13 +90,14 @@ queueRouter
       
       const sessionToCompleteId = req.params.sessionId;
       const currentSession = await QueueService.getById(req.app.get('db'), sessionToCompleteId);
-      if(currentSession.mentorName !== first_name)
+    
+      if(currentSession.mentorName !== full_name)
         return res.status(400).json({
           error: `Sorry only mentor that work with ${currentSession.studentName} can complete session`
         });
 
       const completeSession = {completed: true}
-      await QueueService.updateSessionToComplete(req.app.get('db'), current.id, completeSession);
+      await QueueService.updateSessionToComplete(req.app.get('db'), currentSession.id, completeSession);
 
       res.status(204)
     
