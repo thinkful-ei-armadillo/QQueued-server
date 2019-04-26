@@ -18,7 +18,8 @@ usersRouter
       .catch(next);
   })
   .post(parser, (req, res, next) => {
-    const { password, username, title, name } = req.body;
+    console.log(req.body);
+    const { password, user_name, title, full_name } = req.body;
     const db = req.app.get('db');
     const { isError, error } = validateUserRequest(req.body);
 
@@ -34,14 +35,14 @@ usersRouter
           }
           
           return {
-            username,
-            name,
+            user_name,
+            full_name,
             password: hash,
             title
           };
         })
         .then(async (newUser) => {
-          await UserService.validateUserName(db, newUser.username)
+          await UserService.validateUserName(db, newUser.user_name)
             ? res.status(400).send({ error: 'Username already taken' })
             : UserService.insertUser(db, newUser);
         })

@@ -4,7 +4,7 @@ TRUNCATE
   "queue",
   "user";
 
-INSERT INTO "user"("id", "user_name", "title", "name", "password")
+INSERT INTO "user"("id", "user_name", "title", "full_name", "password")
 VALUES
   (
     1,
