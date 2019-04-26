@@ -10,18 +10,7 @@ queueRouter
   .route('/')
   .get( async (req, res, next) => {
     try{
-<<<<<<< HEAD
       const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req)
-=======
-      const pointer = await QueueService.getPointers(req.app.get('db'));
-      const queueList = [];
-      const mentorList = await QueueService.getAll(req.app.get('db'));
-      const currentlyBeingHelped = mentorList.filter(list => list.dequeue === true && list.completed === false);
-      
-      if(pointer.head !== null)
-        queueList = list.filter(listItem => listItem.id >= pointer.head);
-
->>>>>>> 4b96daef9a0423c0c5e78e8836672074dcf0fc66
       res.json({
         queueList,
         currentlyBeingHelped
