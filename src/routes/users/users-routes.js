@@ -2,6 +2,7 @@ const express = require('express');
 const usersRouter = express.Router();
 const parser = express.json();
 const UserService = require('./users-service');
+const AuthService = require('../auth/auth-service');
 const { requireAuth } = require('../../middleware/jwt-auth');
 const { validatePassword, validateUserRequest } = require('../../helper/errorHandling');
 
@@ -18,7 +19,6 @@ usersRouter
       .catch(next);
   })
   .post(parser, (req, res, next) => {
-    console.log(req.body);
     const { password, user_name, title, full_name } = req.body;
     const db = req.app.get('db');
     const { isError, error } = validateUserRequest(req.body);
@@ -45,11 +45,16 @@ usersRouter
           await UserService.validateUserName(db, newUser.user_name)
             ? res.status(400).send({ error: 'Username already taken' })
             : UserService.insertUser(db, newUser);
+          return newUser;
         })
         .then(user => {
-          return res
-            .status(201)
-            .json(user);
+          const sub = user.user_name;
+          const payload = {
+            user_id: user.id,
+            name: user.full_name,
+            title: user.title
+          };
+          res.send({ authToken: AuthService.createJwt(sub, payload) });
         })
         .catch(next);
     }
