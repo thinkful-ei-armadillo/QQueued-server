@@ -4,7 +4,7 @@ const knex = require('knex');
 const { DB_URL, API_ENDPOINT } = require('./config');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-const axios = require("axios");
+const axios = require('axios');
 
 const db = knex({
   client: 'pg',
@@ -13,18 +13,18 @@ const db = knex({
 
 app.set('db', db);
 
-io.set("origins", "*:*");
+io.set('origins', '*:*');
 let interval;
 
-io.on("connection", async socket => {
+io.on('connection', async socket => {
  
-  console.log("Client Successfully Connected");
+  console.log('Client Successfully Connected');
   if (interval) {
     clearInterval(interval);
   }
   interval = setInterval(() => getApiAndEmit(socket), 10000);
 
-  socket.on("disconnect", () => console.log("Client disconnected"));
+  socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
 const getApiAndEmit = async socket => {
@@ -32,7 +32,7 @@ const getApiAndEmit = async socket => {
     const res = await axios.get(
       API_ENDPOINT
     ); 
-    socket.emit("FromAPI", res.data); // Emitting a new message. It will be consumed by the client
+    socket.emit('FromAPI', res.data); // Emitting a new message. It will be consumed by the client
   } catch (error) {
     console.error(`Error: ${error.code}`);
   }
