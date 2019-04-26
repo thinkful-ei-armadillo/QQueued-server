@@ -5,6 +5,7 @@ const { DB_URL, API_ENDPOINT } = require('./config');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const axios = require("axios");
+const helperQueue = require('../src/routes/queue/helperQueue')
 
 const db = knex({
   client: 'pg',
@@ -29,10 +30,9 @@ io.on("connection", async socket => {
 
 const getApiAndEmit = async socket => {
   try {
-    const res = await axios.get(
-      API_ENDPOINT
-    ); 
-    socket.emit("FromAPI", res.data); // Emitting a new message. It will be consumed by the client
+    const data = await helperQueue.getQueueData(db)
+    
+    socket.emit("FromAPI", data); // Emitting a new message. It will be consumed by the client
   } catch (error) {
     console.error(`Error: ${error.code}`);
   }
