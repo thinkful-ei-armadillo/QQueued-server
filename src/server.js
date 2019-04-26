@@ -1,7 +1,7 @@
 const app = require('./app');
 const { PORT } = require('./config');
 const knex = require('knex');
-const { DB_URL } = require('./config');
+const { DB_URL, API_ENDPOINT } = require('./config');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const axios = require("axios");
@@ -30,7 +30,7 @@ io.on("connection", async socket => {
 const getApiAndEmit = async socket => {
   try {
     const res = await axios.get(
-      "http://localhost:8000/api/queue"
+      API_ENDPOINT
     ); 
     socket.emit("FromAPI", res.data); // Emitting a new message. It will be consumed by the client
   } catch (error) {

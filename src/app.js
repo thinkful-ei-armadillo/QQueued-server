@@ -21,7 +21,6 @@ app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
 
-app.use('/api/slack', slackRouter);
 app.use('/api/queue', queueRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
