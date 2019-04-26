@@ -47,7 +47,7 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
     }
   };
   const data = await axios
-    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: 'UJ3CMD8UV' }, con)
+    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: user }, con)
     .then(data => data.data)
     .catch(err => next(err));
 
