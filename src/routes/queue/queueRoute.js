@@ -2,6 +2,7 @@ const express = require('express');
 const QueueService = require('./queueService');
 const {requireAuth} = require('../../middleware/jwt-auth');
 const parser = express.json();
+const helperQueue = require('./helperQueue');
 
 const queueRouter = express.Router();
 
@@ -9,11 +10,7 @@ queueRouter
   .route('/')
   .get( async (req, res, next) => {
     try{
-      const pointer = await QueueService.getPointers(req.app.get('db'));
-      const list = await QueueService.getAll(req.app.get('db'));
-      const queueList = list.filter(listItem => listItem.id >= pointer.head);
-      const currentlyBeingHelped = list.filter(list => list.dequeue === true && list.completed === false);
-
+      const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req)
       res.json({
         queueList,
         currentlyBeingHelped
