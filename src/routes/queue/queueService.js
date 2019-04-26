@@ -11,12 +11,13 @@ const QueueService ={
         'queue.dequeue', 
         'queue.next',
         'queue.slack_user_id',
-        'user.user_name as studentName',
-        'mentor.user_name as mentorName'
+        'user.first_name as studentName',
+        'mentor.first_name as mentorName'
       )
       .where({completed: false})
       .rightJoin('user','queue.user_name', 'user.user_name')
-      .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name').orderBy('id', 'asc');
+      .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name')
+      .orderBy('id', 'asc');
   },
   enqueue(db, data){
     return db

@@ -10,7 +10,7 @@ queueRouter
   .route('/')
   .get( async (req, res, next) => {
     try{
-      const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req)
+      const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req.app.get('db'))
       res.json({
         queueList,
         currentlyBeingHelped
