@@ -9,17 +9,17 @@ const parser = express.json();
 authRouter
   .route('/')
   .post(parser, (req, res, next) => {
-    const { username, password } = req.body;
+    const { user_name, password } = req.body;
  
     const { error, isError } = validateAuthRequest(req.body);
-    const loginUser = { username, password };
+    const loginUser = { user_name, password };
     const db = req.app.get('db');
 
     if (isError) {
       return res.status(400).send({ error });
     } else {
       AuthService
-        .getUser(db, username)
+        .getUser(db, user_name)
         .then(user => {
           !user
             ? res.status(400).send({ error: 'Incorrect username or password' })
@@ -34,7 +34,7 @@ authRouter
           const sub = user.user_name;
           const payload = {
             user_id: user.id,
-            name: user.name,
+            name: user.full_name,
             title: user.title
           };
           res.send({ authToken: AuthService.createJwt(sub, payload) });
@@ -46,7 +46,7 @@ authRouter
     const sub = req.user.username;
     const payload = {
       user_id: req.user.id,
-      name: req.user.name,
+      name: req.user.full_name,
       title: req.user.title
     };
     res.send({ authToken: AuthService.createJwt(sub, payload) });
