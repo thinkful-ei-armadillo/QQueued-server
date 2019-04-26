@@ -10,12 +10,23 @@ queueRouter
   .route('/')
   .get( async (req, res, next) => {
     try{
+<<<<<<< HEAD
       const {queueList, currentlyBeingHelped} =  await helperQueue.getQueueData(req)
+=======
+      const pointer = await QueueService.getPointers(req.app.get('db'));
+      const queueList = [];
+      const mentorList = await QueueService.getAll(req.app.get('db'));
+      const currentlyBeingHelped = mentorList.filter(list => list.dequeue === true && list.completed === false);
+      
+      if(pointer.head !== null)
+        queueList = list.filter(listItem => listItem.id >= pointer.head);
+
+>>>>>>> 4b96daef9a0423c0c5e78e8836672074dcf0fc66
       res.json({
         queueList,
         currentlyBeingHelped
       });
-      next();
+
     } catch (error) {
       next(error);
     }
@@ -62,7 +73,7 @@ queueRouter
 
       const pointer = await QueueService.getPointers(req.app.get('db'));
       if(pointer.head === null)
-        return res.json('no students in queue')
+        return res.status(204)
       const current = await QueueService.getById(req.app.get('db'), pointer.head);
       const currentDequeueUpdate = {mentor_user_name: user_name, dequeue: true, next: null}
       
@@ -72,10 +83,22 @@ queueRouter
         await QueueService.updateTailPointer(req.app.get('db'), current.next);
       }
 
-      res.json('student off queue')
+      res.status(204)
  
     } catch (error){
       next(error);
+    }
+  })
+
+queueRouter
+  .route('/:dequeuedId')
+  .all(requireAuth)
+  .patch(async (req,res,next)=>{
+    try{
+      console.log(req.user)
+      console.log('id', req.params.dequeueId)
+    } catch(error) {
+      next(error)
     }
   })
 
