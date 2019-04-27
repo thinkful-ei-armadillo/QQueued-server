@@ -13,7 +13,7 @@ const db = knex({
 });
 
 app.set('db', db);
-
+app.set('socketio', io);
 io.set('origins', '*:*');
 let interval;
 
@@ -23,7 +23,7 @@ io.on('connection', async socket => {
   if (interval) {
     clearInterval(interval);
   }
-  interval = setInterval(() => getApiAndEmit(socket), 10000);
+  // interval = setInterval(() => getApiAndEmit(socket), 10000);
 
   socket.on('disconnect', () => console.log('Client disconnected'));
 });

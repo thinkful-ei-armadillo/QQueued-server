@@ -17,7 +17,7 @@ const helperQueue = {
   async addToQueue(db, studentInLine){
     const pointer = await QueueService.getPointers(db);
       
-      await QueueService.enqueue(db, studentInLine).then(
+      const data = await QueueService.enqueue(db, studentInLine).then(
         res => (studentInLine = res)
       );
 
@@ -37,6 +37,7 @@ const helperQueue = {
           studentInLine.id
         );
       }
+      return data
   }
 };
 

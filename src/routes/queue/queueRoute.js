@@ -29,14 +29,15 @@ queueRouter
       const { user_name } = req.user;
       const { description } = req.body;
       let newQueueData = { description, user_name };
-      
+      let io = req.app.get('socketio')
+
       if (!description)
         return res.status(400).json({
           error: `Missing description in request body`
       });
 
-      await helperQueue.addToQueue(req.app.get('db'), newQueueData);
-     
+      const data = await helperQueue.addToQueue(req.app.get('db'), newQueueData);
+      io.emit('new-ticket', data)
       res.json({
         studentName: req.user.full_name,
         description: description

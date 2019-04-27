@@ -11,9 +11,9 @@ const bodyParser = require('body-parser');
 slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
 
   try {
-    // const db = req.app.get('db');
+    //const db = req.app.get('db');
     const { user_id, user_name, text } = req.body;
-
+    const io = req.app.get('socketio')
     if (!text)
     return res.status(400).json({
       error: `Missing description in request`
@@ -25,8 +25,9 @@ slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (re
       slack_user_id: user_id  
     };
     
-    await helperQueue.addToQueue(req.app.get('db'), newQueueData);
-
+    const data = await helperQueue.addToQueue(req.app.get('db'), newQueueData);
+    
+    io.emit('new-ticket',data)
     // const newTicket = {
     //   description: text, // question from student
     //   // slack_handle: user_name, // user's slack handle
