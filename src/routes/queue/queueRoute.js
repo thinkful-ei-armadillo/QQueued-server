@@ -49,7 +49,7 @@ queueRouter
   .patch(requireAuth, async (req, res, next) => {
     try {
       const { title, user_name } = req.user;
-
+      let io = req.app.get('socketio')
       if (title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
@@ -68,11 +68,12 @@ queueRouter
       };
 
       await QueueService.updateHeadPointer(req.app.get('db'), current.next);
-      await QueueService.dequeue(
+      const helped = await QueueService.dequeue(
         req.app.get('db'),
         pointer.head,
         currentDequeueUpdate
       );
+      io.emit('dequeue', helped)
       if (current.next === null) {
         await QueueService.updateTailPointer(req.app.get('db'), current.next);
       }
