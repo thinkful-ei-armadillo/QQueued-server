@@ -5,22 +5,36 @@ const slackService = require('./slackService');
 require('dotenv').config();
 const config = require('../../config');
 const axios = require('axios');
+const helperQueue = require('../queue/helperQueue');
 const bodyParser = require('body-parser');
 
 slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
-  const db = req.app.get('db');
-  const { user_id, user_name, text } = req.body;
 
   try {
-    const newTicket = {
-      description: text, // question from student
-      // slack_handle: user_name, // user's slack handle
-      user_name,
-      slack_user_id: user_id // user's slack user id
-    };
+    // const db = req.app.get('db');
+    const { user_id, user_name, text } = req.body;
 
+    if (!text)
+    return res.status(400).json({
+      error: `Missing description in request`
+    });
+
+    let newQueueData = { 
+      description: text, 
+      user_name, 
+      slack_user_id: user_id  
+    };
+    
+    await helperQueue.addToQueue(req.app.get('db'), newQueueData);
+
+    // const newTicket = {
+    //   description: text, // question from student
+    //   // slack_handle: user_name, // user's slack handle
+    //   user_name,
+    //   slack_user_id: user_id // user's slack user id
+    // };
     const resp = `Hello ${user_name}, help is on the way!`;
-    await slackService.insertTicket(db, newTicket);
+    // await slackService.insertTicket(db, newTicket);
 
     // This is the payload that we are sending in response to the
     // student's ticket on slack

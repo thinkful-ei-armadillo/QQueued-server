@@ -19,6 +19,20 @@ const QueueService ={
       .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name')
       .orderBy('id', 'asc');
   },
+
+  getCompleted(db) {
+    return db.from('queue')
+      .select(
+        'queue.id',
+        'queue.description',
+        'queue.user_name',
+        'user.full_name as studentName'
+      )
+      .where({ completed: true })
+      .rightJoin('user', 'queue.user_name', 'user.user_name')
+      .orderBy('id', 'asc');
+  },
+
   enqueue(db, data){
     return db
       .insert(data)

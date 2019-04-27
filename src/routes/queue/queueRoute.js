@@ -12,11 +12,13 @@ queueRouter
     try {
       const {
         queueList,
-        currentlyBeingHelped
+        currentlyBeingHelped,
+        hasBeenHelpedList
       } = await helperQueue.getQueueData(req.app.get('db'));
       res.json({
         queueList,
-        currentlyBeingHelped
+        currentlyBeingHelped,
+        hasBeenHelpedList
       });
     } catch (error) {
       next(error);
@@ -24,36 +26,17 @@ queueRouter
   })
   .post(requireAuth, parser, async (req, res, next) => {
     try {
-      const pointer = await QueueService.getPointers(req.app.get('db'));
       const { user_name } = req.user;
       const { description } = req.body;
       let newQueueData = { description, user_name };
-
+      
       if (!description)
         return res.status(400).json({
           error: `Missing description in request body`
-        });
+      });
 
-      await QueueService.enqueue(req.app.get('db'), newQueueData).then(
-        res => (newQueueData = res)
-      );
-
-      if (pointer.head === null)
-        await QueueService.updateBothPointers(
-          req.app.get('db'),
-          newQueueData.id
-        );
-      else {
-        await QueueService.updateTailPointer(
-          req.app.get('db'),
-          newQueueData.id
-        );
-        await QueueService.updateQueue(
-          req.app.get('db'),
-          pointer.tail,
-          newQueueData.id
-        );
-      }
+      await helperQueue.addToQueue(req.app.get('db'), newQueueData);
+     
       res.json({
         studentName: req.user.full_name,
         description: description
