@@ -1,4 +1,4 @@
-const QueueService ={
+const QueueService = {
   getPointers(db){
     return db.from('pointers').select('*').first();
   },
