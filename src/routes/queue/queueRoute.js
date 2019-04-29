@@ -78,7 +78,7 @@ queueRouter
         await QueueService.updateTailPointer(req.app.get('db'), current.next);
       }
 
-      res.status(204);
+      res.status(204).json({message: 'done'});
       next();
     } catch (error) {
       next(error);
@@ -117,7 +117,7 @@ queueRouter
         completeSession
       );
 
-      res.status(204);
+      res.send({ message: 'Complete' });
     } catch (error) {
       next(error);
     }
