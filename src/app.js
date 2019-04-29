@@ -3,7 +3,13 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const slackRouter = require('./routes/slack/slackRoute');
+const queueRouter = require('./routes/queue/queueRoute');
+const usersRouter = require('./routes/users/users-routes');
+const authRouter = require('./routes/auth/auth-routes');
+
 const { NODE_ENV } = require('./config');
+
 
 const app = express();
 
@@ -14,11 +20,17 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption));
 app.use(cors());
 app.use(helmet());
-app.get('/', (req, res) => {
-  res.send('Hello, world!');});
+
+app.use('/api/queue', queueRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/slack', slackRouter);
+
+
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
+ 
   if (NODE_ENV === 'production') {
     response = { error: { message: 'server error' } };
   } else {
@@ -26,6 +38,7 @@ app.use(function errorHandler(error, req, res, next) {
     response = { message: error.message, error };
   }
   res.status(500).json(response);
+  
 });
 
 module.exports = app;
