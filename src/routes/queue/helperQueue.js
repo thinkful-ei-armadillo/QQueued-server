@@ -17,28 +17,29 @@ const helperQueue = {
   async addToQueue(db, studentInLine){
     const pointer = await QueueService.getPointers(db);
       
-      const data = await QueueService.enqueue(db, studentInLine).then(
-        res => (studentInLine = res)
-      );
+    const data = await QueueService.enqueue(db, studentInLine).then(
+      res => (studentInLine = res)
+    );
 
-      if (pointer.head === null)
-        await QueueService.updateBothPointers(
-          db,
-          studentInLine.id
-        );
-      else {
-        await QueueService.updateTailPointer(
-          db,
-          studentInLine.id
-        );
-        await QueueService.updateQueue(
-          db,
-          pointer.tail,
-          studentInLine.id
-        );
-      }
-      return data
+    if (pointer.head === null)
+      await QueueService.updateBothPointers(
+        db,
+        studentInLine.id
+      );
+    else {
+      await QueueService.updateTailPointer(
+        db,
+        studentInLine.id
+      );
+      await QueueService.updateQueue(
+        db,
+        pointer.tail,
+        studentInLine.id
+      );
+    }
+    return data;
   }
+  
 };
 
 module.exports = helperQueue;
