@@ -29,15 +29,29 @@ queueRouter
       const { user_name } = req.user;
       const { description } = req.body;
       let newQueueData = { description, user_name };
-      let io = req.app.get('socketio')
 
-      if (!description)
+      let io = req.app.get('socketio');
+      
+      if (!description) {
         return res.status(400).json({
           error: `Missing description in request body`
-      });
-
+        });
+      }
+      
+      
       const data = await helperQueue.addToQueue(req.app.get('db'), newQueueData);
+
+      io.emit('new-ticket', data);
+
+      const top = await QueueService.getPointers(req.app.get('db'));
+      const tail = await QueueService.getById(req.app.get('db'), top.tail);
+      const studentData = { user_name, question: description, queue_id: tail.id };
+
+      await QueueService
+        .addStudentData(req.app.get('db'), studentData);
+
       io.emit('new-ticket', data)
+
       
       res.json({
         studentName: req.user.full_name,
@@ -50,7 +64,7 @@ queueRouter
   .patch(requireAuth, async (req, res, next) => {
     try {
       const { title, user_name } = req.user;
-      let io = req.app.get('socketio')
+      let io = req.app.get('socketio');
       if (title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
@@ -62,6 +76,9 @@ queueRouter
         req.app.get('db'),
         pointer.head
       );
+
+      await QueueService.updateStudentData(req.app.get('db'), current.id, req.user.full_name);
+
       const currentDequeueUpdate = {
         mentor_user_name: user_name,
         dequeue: true,
