@@ -18,7 +18,17 @@ io.set("origins", "*:*");
 
 io.on("connection", async socket => {
   console.log("Client Successfully Connected");
+  socket.userName = 'Anon'
 
+  socket.on('change-username', data => {
+    socket.userName = data.userName
+    socket.broadcast.emit('entered', socket.userName)
+  })
+
+  socket.on('message', data => {
+    console.log(data)
+    io.emit('message', data)
+  })
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
 
