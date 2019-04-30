@@ -2,7 +2,6 @@ const express = require('express');
 const dataRouter = express.Router();
 const { requireAuth } = require('../../middleware/jwt-auth');
 const dataService = require('./dataService');
-const QueueSerive = require('../queue/queueService');
 
 dataRouter
   .route('/')
@@ -12,7 +11,7 @@ dataRouter
         return res.status(403).send({ error: 'only mentors have access' });
       }
       
-      const data = await dataService.getCompleted(req.app.get('db'))
+      const data = await dataService.getCompleted(req.app.get('db'));
       
       res.json(data);
 
