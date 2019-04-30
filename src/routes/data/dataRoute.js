@@ -14,7 +14,7 @@ dataRouter
 
       const data = await dataService.getData(db);
 
-      res.status(200).send(data);
+      res.json(data);
 
     }
 
