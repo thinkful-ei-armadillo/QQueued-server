@@ -40,6 +40,7 @@ queueRouter
       
       
       const data = await helperQueue.addToQueue(req.app.get('db'), newQueueData);
+
       io.emit('new-ticket', data);
 
       const top = await QueueService.getPointers(req.app.get('db'));
@@ -48,6 +49,9 @@ queueRouter
 
       await QueueService
         .addStudentData(req.app.get('db'), studentData);
+
+      io.emit('new-ticket', data)
+
       
       res.json({
         studentName: req.user.full_name,
