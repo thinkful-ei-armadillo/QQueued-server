@@ -64,6 +64,26 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
   res.json(message);
 });
 
+slackRouter.route('/events').post(parser, async (req, res, next) => {
+  // const { challenge } = req.body
+  const { event }  = req.body;
+  // res.status(200).json({
+  //   challenge: challenge
+  // })
+  res.status(200).end();
+  let con = {
+    headers: {
+      Authorization: `Bearer ${config.SLACK_TOKEN}`
+    }
+  };
+  if(event.bot_id  !== 'BHT4QNKGA' && event.text === 'queue') {
+     await axios
+    .post(`${config.SLACK_ENDPOINT}/chat.postMessage`, { channel: event.channel, text: 'hello' }, con)
+    .then(data => data.data)
+    .catch(err => next(err));
+  }
+})
+
 module.exports = slackRouter;
 
 /*
