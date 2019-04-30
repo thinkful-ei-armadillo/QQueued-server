@@ -24,7 +24,7 @@ io.on("connection", async socket => {
     socket.userName = data.userName
     io.emit('entered', socket.userName)
   })
-
+ 
   socket.on('message', data => {
     io.emit('message', data)
   })

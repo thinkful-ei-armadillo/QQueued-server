@@ -83,16 +83,17 @@ slackRouter.route('/events').post(parser, async (req, res, next) => {
   // })
   res.status(200).end();
   const { queueList } = await helperQueue.getQueueData(req.app.get('db'));
-
+  console.log(event)
   let con = {
     headers: {
       Authorization: `Bearer ${config.SLACK_TOKEN}`
     }
   };
+  const student = queueList.find(ele => {
+    return ele.slack_user_id === event.user && ele.dequeue === false;
+  });
   if (event.bot_id !== 'BHT4QNKGA' && event.text === 'queue') {
-    const student = queueList.find(ele => {
-      return ele.slack_user_id === event.user && ele.dequeue === false;
-    });
+    
     const number = queueList.indexOf(student);
     const text = `You can currently *#${number + 1}* in the queue.`;
     await axios
@@ -108,14 +109,14 @@ slackRouter.route('/events').post(parser, async (req, res, next) => {
   if (event.bot_id !== 'BHT4QNKGA' && event.text === 'tickets') {
     let temp = '';
     const tickets = queueList.filter((i, j) => {
-      if (i.slack_user_id === event.user) {
+      if (i.user_name === student.user_name) {
         temp+=`${j+1}) *${i.description}* \n`
       }
     });
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,
-        { channel: event.channel, text: temp, 'mrkdwn': true },
+        { channel: event.channel, text:`_All your open tickets:_\n ${temp}`,  'mrkdwn': true },
         con
       )
       .then(data => data.data)
