@@ -50,8 +50,6 @@ queueRouter
       await QueueService
         .addStudentData(req.app.get('db'), studentData);
 
-
-      
       res.json({
         studentName: req.user.full_name,
         description: description

@@ -1,22 +1,22 @@
-const express = require("express");
+const express = require('express');
 const slackRouter = express.Router();
 const parser = express.json();
-const slackService = require("./slackService");
-require("dotenv").config();
-const config = require("../../config");
-const axios = require("axios");
-const helperQueue = require("../queue/helperQueue");
-const bodyParser = require("body-parser");
+const slackService = require('./slackService');
+require('dotenv').config();
+const config = require('../../config');
+const axios = require('axios');
+const helperQueue = require('../queue/helperQueue');
+const bodyParser = require('body-parser');
 
 slackRouter
-  .route("/")
+  .route('/')
   .post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
     try {
       const { user_id, user_name, text } = req.body;
-      const io = req.app.get("socketio");
+      const io = req.app.get('socketio');
       if (!text)
         return res.status(400).json({
-          error: `Missing description in request`
+          error: 'Missing description in request'
         });
 
       let newQueueData = {
@@ -26,18 +26,18 @@ slackRouter
       };
 
       const data = await helperQueue.addToQueue(
-        req.app.get("db"),
+        req.app.get('db'),
         newQueueData
       );
-      io.on("line", data => {
+      io.on('line', data => {
         console.log(data); // something to do with the scope of socket io
       });
-      io.emit("new-ticket", data);
+      io.emit('new-ticket', data);
       const resp = `Hello ${user_name}, help is on the way!`;
-      const { queueList } = await helperQueue.getQueueData(req.app.get("db"));
+      const { queueList } = await helperQueue.getQueueData(req.app.get('db'));
 
       res.status(200).json({
-        response_type: "in_channel",
+        response_type: 'in_channel',
         text: resp,
         attachments: [
           {
@@ -49,7 +49,7 @@ slackRouter
       next(error);
     }
   });
-slackRouter.route("/message").post(parser, async (req, res, next) => {
+slackRouter.route('/message').post(parser, async (req, res, next) => {
   const { user, text } = req.body;
 
   let con = {
@@ -74,7 +74,7 @@ slackRouter.route("/message").post(parser, async (req, res, next) => {
   res.json(message);
 });
 
-slackRouter.route("/events").post(parser, async (req, res, next) => {
+slackRouter.route('/events').post(parser, async (req, res, next) => {
   // const { challenge } = req.body
   const { event } = req.body;
 
@@ -82,14 +82,14 @@ slackRouter.route("/events").post(parser, async (req, res, next) => {
   //   challenge: challenge
   // })
   res.status(200).end();
-  const { queueList } = await helperQueue.getQueueData(req.app.get("db"));
+  const { queueList } = await helperQueue.getQueueData(req.app.get('db'));
 
   let con = {
     headers: {
       Authorization: `Bearer ${config.SLACK_TOKEN}`
     }
   };
-  if (event.bot_id !== "BHT4QNKGA" && event.text === "queue") {
+  if (event.bot_id !== 'BHT4QNKGA' && event.text === 'queue') {
     const student = queueList.find(ele => {
       return ele.slack_user_id === event.user && ele.dequeue === false;
     });
@@ -98,14 +98,14 @@ slackRouter.route("/events").post(parser, async (req, res, next) => {
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,
-        { channel: event.channel, text: text, "mrkdwn": true  },
+        { channel: event.channel, text: text, 'mrkdwn': true  },
         con
       )
       .then(data => data.data)
       .catch(err => next(err));
   }
 
-  if (event.bot_id !== "BHT4QNKGA" && event.text === "tickets") {
+  if (event.bot_id !== 'BHT4QNKGA' && event.text === 'tickets') {
     let temp = '';
     const tickets = queueList.filter((i, j) => {
       if (i.slack_user_id === event.user) {
@@ -115,7 +115,7 @@ slackRouter.route("/events").post(parser, async (req, res, next) => {
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,
-        { channel: event.channel, text: temp, "mrkdwn": true },
+        { channel: event.channel, text: temp, 'mrkdwn': true },
         con
       )
       .then(data => data.data)
