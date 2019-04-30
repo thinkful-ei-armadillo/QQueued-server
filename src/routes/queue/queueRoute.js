@@ -50,7 +50,6 @@ queueRouter
       await QueueService
         .addStudentData(req.app.get('db'), studentData);
 
-      io.emit('new-ticket', data)
 
       
       res.json({
