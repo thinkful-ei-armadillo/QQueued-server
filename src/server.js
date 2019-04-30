@@ -18,12 +18,10 @@ io.set("origins", "*:*");
 
 io.on("connection", async socket => {
   console.log("Client Successfully Connected");
-  
-  socket.on('line',  data => {
-      console.log('server',data)
-  })
+
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
+
 
 const getApiAndEmit = async socket => {
   try {
