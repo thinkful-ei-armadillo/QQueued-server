@@ -38,6 +38,7 @@ queueRouter
 
       const data = await helperQueue.addToQueue(req.app.get('db'), newQueueData);
       io.emit('new-ticket', data)
+      
       res.json({
         studentName: req.user.full_name,
         description: description
