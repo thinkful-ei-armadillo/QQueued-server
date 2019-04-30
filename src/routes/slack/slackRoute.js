@@ -11,7 +11,6 @@ const bodyParser = require('body-parser');
 slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
 
   try {
-    //const db = req.app.get('db');
     const { user_id, user_name, text } = req.body;
     const io = req.app.get('socketio')
     if (!text)
@@ -28,24 +27,15 @@ slackRouter.route('/').post(bodyParser.urlencoded({ extended: true }), async (re
     const data = await helperQueue.addToQueue(req.app.get('db'), newQueueData);
     
     io.emit('new-ticket',data)
-    // const newTicket = {
-    //   description: text, // question from student
-    //   // slack_handle: user_name, // user's slack handle
-    //   user_name,
-    //   slack_user_id: user_id // user's slack user id
-    // };
     const resp = `Hello ${user_name}, help is on the way!`;
-    // await slackService.insertTicket(db, newTicket);
+    const { queueList } = await helperQueue.getQueueData(req.app.get('db'));
 
-    // This is the payload that we are sending in response to the
-    // student's ticket on slack
-    // Hard coding estimated wait time for now.
     res.status(200).json({
       response_type: 'in_channel',
       text: resp,
       attachments: [
         {
-          text: '  Your estimated wait time is 10 mins'
+          text: `  You are currently, #${queueList.length-1} in line.`
         }
       ]
     });
