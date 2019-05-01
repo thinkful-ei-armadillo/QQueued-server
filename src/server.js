@@ -28,6 +28,10 @@ io.on("connection", async socket => {
   socket.on('message', data => {
     io.emit('message', data)
   })
+
+  socket.on('notifiy', data => {
+    io.emit('notifiy', data)
+  })
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
 

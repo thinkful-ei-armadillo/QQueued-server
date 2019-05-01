@@ -51,7 +51,6 @@ slackRouter
   });
 slackRouter.route('/message').post(parser, async (req, res, next) => {
   const { user, text } = req.body;
-
   let con = {
     headers: {
       Authorization: `Bearer ${config.SLACK_TOKEN}`
