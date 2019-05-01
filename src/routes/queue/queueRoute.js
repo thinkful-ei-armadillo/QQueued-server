@@ -26,6 +26,7 @@ queueRouter
   })
   .post(requireAuth, parser, async (req, res, next) => {
     try {
+      console.log(req.user)
       const { user_name } = req.user;
       const { description } = req.body;
       let newQueueData = { description, user_name };
@@ -43,12 +44,12 @@ queueRouter
 
       io.emit('new-ticket', data);
 
-      const top = await QueueService.getPointers(req.app.get('db'));
-      const tail = await QueueService.getById(req.app.get('db'), top.tail);
-      const studentData = { user_name, question: description, queue_id: tail.id };
+      // const top = await QueueService.getPointers(req.app.get('db'));
+      // const tail = await QueueService.getById(req.app.get('db'), top.tail);
+      // const studentData = { user_name, question: description, queue_id: tail.id };
 
-      await QueueService
-        .addStudentData(req.app.get('db'), studentData);
+      // await QueueService
+      //   .addStudentData(req.app.get('db'), studentData);
 
       res.json({
         studentName: req.user.full_name,
@@ -102,11 +103,9 @@ queueRouter
 
 queueRouter
   .route('/:sessionId')
-  .all(requireAuth)
-  .patch(async (req, res, next) => {
+  .patch(requireAuth, async (req, res, next) => {
     try {
       const { title, full_name } = req.user;
-
       if (title !== 'mentor')
         return res.status(400).json({
           error: `Sorry Only mentors can update queue`
@@ -135,6 +134,18 @@ queueRouter
       res.send({ message: 'Complete' });
     } catch (error) {
       next(error);
+    }
+  })
+  .delete(requireAuth, async (req, res, next) => {
+    try{
+      const {title, user_name} = req.user;
+      const queuePosition =  Number(req.params.sessionId);
+
+      await helperQueue.deleteStudentFromQueue(req.app.get('db'), res, queuePosition, title, user_name);
+      
+      res.status(204);
+    } catch(error){
+      next(error)
     }
   });
 
