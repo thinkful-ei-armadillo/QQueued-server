@@ -143,7 +143,7 @@ queueRouter
 
       await helperQueue.deleteStudentFromQueue(req.app.get('db'), res, queuePosition, title, user_name);
       
-      res.status(204);
+      res.status(204).end();
     } catch(error){
       next(error)
     }

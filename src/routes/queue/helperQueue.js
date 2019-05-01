@@ -49,8 +49,8 @@ const helperQueue = {
     
     else if(pointer.head === queuetoDeleteId && pointer.head === pointer.tail){
       await QueueService.updateBothPointers(db, null)
-      await QueueService.removeFromQueue(db, currentQueue.id);
-      return res.status(204)
+      await QueueService.removeFromQueue(db, pointer.head);
+      return res.status(204).end()
     }
     
     let queueBefore = await QueueService.getById(db, pointer.head);
@@ -58,7 +58,7 @@ const helperQueue = {
     if(pointer.head === queueBefore.id && pointer.head === queuetoDeleteId){
       await QueueService.updateHeadPointer(db, queueBefore.next)
       await QueueService.removeFromQueue(db, queueBefore.id);
-      return res.status(204)
+      return res.status(204).end()
     }
 
     if(queueBefore.next === null)
@@ -87,7 +87,7 @@ const helperQueue = {
       await QueueService.updateQueue(db, queueBefore.id, currentQueue.next);
       await QueueService.removeFromQueue(db, currentQueue.id);
       await QueueService.updateTailPointer(db, queueBefore.id)
-      return res.status(204)
+      return res.status(204).end()
     }
 
     await QueueService.updateQueue(db, queueBefore.id, currentQueue.next);
