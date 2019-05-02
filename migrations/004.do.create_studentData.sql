@@ -4,5 +4,6 @@ CREATE TABLE "studentData" (
     ON DELETE CASCADE,
   "queue_id" INTEGER REFERENCES "queue"(id),
   "helped_by" TEXT DEFAULT NULL,
-  "question" TEXT NOT NULL
+  "question" TEXT NOT NULL,
+  "note" TEXT DEFAULT NULL
 );
