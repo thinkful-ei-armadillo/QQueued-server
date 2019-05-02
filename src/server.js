@@ -25,7 +25,7 @@ io.on("connection", async socket => {
   socket.on("join-room", data => {
     socket.userName = data.userName;
     connectedClients[data.userName] = socket.id;
-    console.log(connectedClients);
+
     console.log("joining room", connectedClients[data.userName]);
     socket.join(connectedClients[data.userName]);
     io.to(connectedClients[data.userName]).emit("entered", {
@@ -41,7 +41,6 @@ io.on("connection", async socket => {
     ) {
       let id = connectedClients[data.to.studentName];
       let id2 = connectedClients[data.to.mentorName];
-      console.log(id);
       io.to(id).emit("message", data);
       io.to(id2).emit("message", data);
     }
@@ -55,6 +54,16 @@ io.on("connection", async socket => {
   socket.on("disconnect", () => {
     delete connectedClients[socket.userName];
     console.log("Client disconnected");
+  });
+  socket.on("left", data => {
+    if (data.to) {
+      data.text = `${data.user} has left chat`
+      let id = connectedClients[data.to.studentName];
+      let id2 = connectedClients[data.to.mentorName];
+
+      socket.to(id).broadcast.emit("message", data);
+      socket.to(id2).broadcast.emit("message", data);
+    }
   });
 });
 
