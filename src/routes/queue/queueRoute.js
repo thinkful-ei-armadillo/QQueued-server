@@ -44,12 +44,12 @@ queueRouter
 
       io.emit('new-ticket', data);
 
-      // const top = await QueueService.getPointers(req.app.get('db'));
-      // const tail = await QueueService.getById(req.app.get('db'), top.tail);
-      // const studentData = { user_name, question: description, queue_id: tail.id };
+      const top = await QueueService.getPointers(req.app.get('db'));
+      const tail = await QueueService.getById(req.app.get('db'), top.tail);
+      const studentData = { user_name, question: description, queue_id: tail.id };
 
-      // await QueueService
-      //   .addStudentData(req.app.get('db'), studentData);
+      await QueueService
+        .addStudentData(req.app.get('db'), studentData);
 
       res.json({
         studentName: req.user.full_name,

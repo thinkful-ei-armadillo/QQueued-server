@@ -70,7 +70,7 @@ VALUES
   VALUES
     ('student2', 1, 'professX', 'help me i dont know what im doing', null),
     ('student3', 2, 'Queen D', 'help me i dont know what im doing', null),
-    ('student4', 3, 'admin', 'help me i dont know what im doing', null),
-    ('matth3wn', 4, 'admin', 'help me i dont know what im doing', null),
-    ('student2', 5, 'professX', 'help me i dont know what im doing', null);
+    ('student4', 3, null, 'help me i dont know what im doing', null),
+    ('matth3wn', 4, null, 'help me i dont know what im doing', null),
+    ('student2', 5, null, 'help me i dont know what im doing', null);
 COMMIT;

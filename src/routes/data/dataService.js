@@ -35,8 +35,10 @@ const dataService = {
     return db.from('studentData')
       .select(
         'studentData.user_name',
-        'note'
-      );
+        'note',
+        'user.full_name as studentName'
+      )
+      .leftJoin('user', 'studentData.user_name', 'user.user_name');
   },
 
   postNote(db, note, queue_id) {
