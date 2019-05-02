@@ -1,43 +1,43 @@
-const express = require('express');
+const express = require("express");
 const slackRouter = express.Router();
 const parser = express.json();
-const slackService = require('./slackService');
-require('dotenv').config();
-const config = require('../../config');
-const axios = require('axios');
-const helperQueue = require('../queue/helperQueue');
-const bodyParser = require('body-parser');
+const slackService = require("./slackService");
+require("dotenv").config();
+const config = require("../../config");
+const axios = require("axios");
+const helperQueue = require("../queue/helperQueue");
+const bodyParser = require("body-parser");
 
 slackRouter
-  .route('/')
+  .route("/")
   .post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
     try {
       const { user_id, user_name, text } = req.body;
-      const io = req.app.get('socketio');
+      const io = req.app.get("socketio");
       if (!text)
         return res.status(400).json({
-          error: 'Missing description in request'
+          error: "Missing description in request"
         });
-      
-      const { queueList } = await helperQueue.getQueueData(req.app.get('db'));
-      let oneTicketOnly = queueList.filter(i => i.user_name === user_name)
-      
-      if(oneTicketOnly.length === 0) {
+
+      const { queueList } = await helperQueue.getQueueData(req.app.get("db"));
+      let oneTicketOnly = queueList.filter(i => i.user_name === user_name);
+
+      if (oneTicketOnly.length === 0) {
         let newQueueData = {
           description: text,
           user_name,
           slack_user_id: user_id
         };
-  
+
         const data = await helperQueue.addToQueue(
-          req.app.get('db'),
+          req.app.get("db"),
           newQueueData
         );
-        io.emit('new-ticket', data);
+        io.emit("new-ticket", data);
         const resp = `Hello ${user_name}, help is on the way!`;
-  
+
         res.status(200).json({
-          response_type: 'in_channel',
+          response_type: "in_channel",
           text: resp,
           attachments: [
             {
@@ -45,24 +45,27 @@ slackRouter
             }
           ]
         });
-      }
-      else{
+      } else {
         res.status(200).json({
-          response_type: 'in_channel',
+          response_type: "in_channel",
           text: `You can only submit one ticket at a time!`,
           attachments: [
             {
-              text: `You can delete your ticket by logging in.`
+              "title": 'Git-Rekt',
+              "title_link": "http://localhost:3000/register",
+              text: `Sign up to be able to delete your current ticket. 
+_*NOTE*: When signing up, use your *Slack handle* for your *username*_
+              `
             }
-          ]
+          ],
+          mrkdwn: true
         });
       }
-      
     } catch (error) {
       next(error);
     }
   });
-slackRouter.route('/message').post(parser, async (req, res, next) => {
+slackRouter.route("/message").post(parser, async (req, res, next) => {
   const { user, text } = req.body;
   let con = {
     headers: {
@@ -86,16 +89,16 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
   res.json(message);
 });
 
-slackRouter.route('/events').post(parser, async (req, res, next) => {
-  const { challenge } = req.body
-  if(challenge) {
+slackRouter.route("/events").post(parser, async (req, res, next) => {
+  const { challenge } = req.body;
+  if (challenge) {
     res.status(200).json({
       challenge: challenge
-    })
+    });
   }
   const { event } = req.body;
   res.status(200).end();
-  const { queueList } = await helperQueue.getQueueData(req.app.get('db'));
+  const { queueList } = await helperQueue.getQueueData(req.app.get("db"));
 
   let con = {
     headers: {
@@ -105,38 +108,40 @@ slackRouter.route('/events').post(parser, async (req, res, next) => {
   const student = queueList.find(ele => {
     return ele.slack_user_id === event.user && ele.dequeue === false;
   });
-  if (event.bot_id !== 'BHT4QNKGA' && event.text === 'queue') {
-    
+  if (event.bot_id !== "BHT4QNKGA" && event.text === "queue") {
     const number = queueList.indexOf(student);
     const text = `You can currently *#${number + 1}* in the queue.`;
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,
-        { channel: event.channel, text: text, 'mrkdwn': true  },
+        { channel: event.channel, text: text, mrkdwn: true },
         con
       )
       .then(data => data.data)
       .catch(err => next(err));
   }
 
-  if (event.bot_id !== 'BHT4QNKGA' && event.text === 'ticket') {
-    let temp = '';
+  if (event.bot_id !== "BHT4QNKGA" && event.text === "ticket") {
+    let temp = "";
     const tickets = queueList.filter((i, j) => {
       if (i.user_name === student.user_name) {
-        temp+=`${j+1}) *${i.description}* \n`
+        temp += `${j + 1}) *${i.description}* \n`;
       }
     });
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,
-        { channel: event.channel, text:`_Your ticket:_\n ${temp}`,  'mrkdwn': true },
+        {
+          channel: event.channel,
+          text: `_Your ticket:_\n ${temp}`,
+          mrkdwn: true
+        },
         con
       )
       .then(data => data.data)
       .catch(err => next(err));
   }
 });
-
 
 module.exports = slackRouter;
 
