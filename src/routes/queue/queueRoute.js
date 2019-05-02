@@ -142,7 +142,6 @@ queueRouter
       const queuePosition =  Number(req.params.sessionId);
 
       await helperQueue.deleteStudentFromQueue(req.app.get('db'), res, queuePosition, title, user_name);
-      
       res.status(204).end();
     } catch(error){
       next(error)
