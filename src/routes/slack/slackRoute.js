@@ -41,7 +41,7 @@ slackRouter
           text: resp,
           attachments: [
             {
-              text: `  You are currently, #${queueList.length} in line.`
+              text: `  You are currently, #${queueList.length+1} in line.`
             }
           ]
         });
