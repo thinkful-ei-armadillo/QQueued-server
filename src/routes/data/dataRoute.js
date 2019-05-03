@@ -47,7 +47,6 @@ dataRouter
         return res.status(403).send({ error: 'only mentors can post notes' });
       }
       const note = await dataService.postNote(req.app.get('db'), req.body.note, req.params.queue_id);
-      console.log(note)
       res.status(200).send(note);
     }
     catch (error) {
