@@ -24,7 +24,7 @@ io.on("connection", async socket => {
 
   socket.on("join-room", data => {
     socket.userName = data.userName;
-
+    console.log(data)
     connectedClients[`${data.list.mentorName}-${data.list.studentName}`] = `${
       data.list.mentorName
     }-${data.list.studentName}`;
@@ -70,6 +70,9 @@ io.on("connection", async socket => {
       socket.to(id).broadcast.emit("message", data);
     }
   });
+  socket.on("helpStudent", data=> {
+    io.emit("helpStudent",data)
+  })
 });
 
 const getApiAndEmit = async socket => {
