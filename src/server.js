@@ -66,6 +66,7 @@ io.on("connection", async socket => {
   socket.on("left", data => {
     if (data.to) {
       data.text = `${data.user} has left chat`;
+      data.time = new Date().toLocaleTimeString();
       let id = connectedClients[`${data.to.mentorName}-${data.to.studentName}`];
       socket.to(id).broadcast.emit("message", data);
     }
