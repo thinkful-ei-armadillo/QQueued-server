@@ -24,11 +24,21 @@ io.on("connection", async socket => {
 
   socket.on("join-room", data => {
     socket.userName = data.userName;
-    connectedClients[data.userName] = socket.id;
 
-    console.log("joining room", connectedClients[data.userName]);
-    socket.join(connectedClients[data.userName]);
-    io.to(connectedClients[data.userName]).emit("entered", {
+    connectedClients[`${data.list.mentorName}-${data.list.studentName}`] = `${
+      data.list.mentorName
+    }-${data.list.studentName}`;
+
+    console.log(
+      "joining room",
+      connectedClients[`${data.list.mentorName}-${data.list.studentName}`]
+    );
+    socket.join(
+      connectedClients[`${data.list.mentorName}-${data.list.studentName}`]
+    );
+    io.to(
+      connectedClients[`${data.list.mentorName}-${data.list.studentName}`]
+    ).emit("entered", {
       userName: socket.userName,
       room: connectedClients[data.userName]
     });
@@ -39,10 +49,8 @@ io.on("connection", async socket => {
       data.to &&
       (data.user === data.to.studentName || data.user === data.to.mentorName)
     ) {
-      let id = connectedClients[data.to.studentName];
-      let id2 = connectedClients[data.to.mentorName];
+      let id = connectedClients[`${data.to.mentorName}-${data.to.studentName}`];
       io.to(id).emit("message", data);
-      io.to(id2).emit("message", data);
     }
   });
   socket.on("delete-ticket", data => {
@@ -57,12 +65,9 @@ io.on("connection", async socket => {
   });
   socket.on("left", data => {
     if (data.to) {
-      data.text = `${data.user} has left chat`
-      let id = connectedClients[data.to.studentName];
-      let id2 = connectedClients[data.to.mentorName];
-
+      data.text = `${data.user} has left chat`;
+      let id = connectedClients[`${data.to.mentorName}-${data.to.studentName}`];
       socket.to(id).broadcast.emit("message", data);
-      socket.to(id2).broadcast.emit("message", data);
     }
   });
 });
