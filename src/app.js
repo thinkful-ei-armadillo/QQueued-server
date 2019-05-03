@@ -8,6 +8,7 @@ const queueRouter = require('./routes/queue/queueRoute');
 const usersRouter = require('./routes/users/users-routes');
 const authRouter = require('./routes/auth/auth-routes');
 const dataRouter = require('./routes/data/dataRoute');
+const studentRouter = require('./routes/student/studentRoute');
 
 const { NODE_ENV } = require('./config');
 
@@ -24,6 +25,7 @@ app.use(helmet());
 
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/student', studentRouter);
 app.use('/api/queue', queueRouter);
 app.use('/api/data', dataRouter);
 app.use('/api/slack', slackRouter);

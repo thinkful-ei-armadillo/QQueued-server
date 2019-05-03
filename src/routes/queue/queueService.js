@@ -88,6 +88,7 @@ const QueueService = {
   removeFromQueue(db, id){
     return db.into('queue').where({id}).delete();
   }
+
 };
 
 

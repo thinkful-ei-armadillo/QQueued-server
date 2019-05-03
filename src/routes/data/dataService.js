@@ -46,8 +46,19 @@ const dataService = {
       .into('studentData')
       .where({ queue_id })
       .update({ note }, ['user_name', 'note'])
-      .then(note => note);
+      .then(data => {
+        const studentName = db
+          .select('full_name')
+          .from('user')
+          .where('user_name', data.user_name);
+        return [
+          studentName,
+          ...data,
+        ];
+      });
   }
+
+  // update description on queue edit route
 
 };
 
