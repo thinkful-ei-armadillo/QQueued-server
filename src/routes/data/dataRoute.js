@@ -28,7 +28,7 @@ dataRouter
     try {
 
       if (req.user.title !== 'mentor') {
-        return;
+        return res.send({notes: []});
       }
 
       const notes = await dataService.getNotes(req.app.get('db'));
@@ -46,8 +46,9 @@ dataRouter
       if (req.user.title !== 'mentor') {
         return res.status(403).send({ error: 'only mentors can post notes' });
       }
-      const postedNote = await dataService.postNote(req.app.get('db'), req.body.note, req.params.queue_id);
-      res.status(200).send(postedNote);
+      const note = await dataService.postNote(req.app.get('db'), req.body.note, req.params.queue_id);
+      console.log(note)
+      res.status(200).send(note);
     }
     catch (error) {
       next(error);

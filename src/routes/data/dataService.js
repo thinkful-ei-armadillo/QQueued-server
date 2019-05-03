@@ -46,15 +46,15 @@ const dataService = {
       .into('studentData')
       .where({ queue_id })
       .update({ note }, ['user_name', 'note'])
-      .then(data => {
+      .then(async data => {
         const studentName = db
           .select('full_name')
           .from('user')
           .where('user_name', data.user_name);
-        return [
+        return (
           studentName,
-          ...data,
-        ];
+          data
+        );
       });
   }
 
