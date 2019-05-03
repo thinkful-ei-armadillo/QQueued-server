@@ -24,7 +24,6 @@ io.on('connection', async socket => {
 
   socket.on('join-room', data => {
     socket.userName = data.userName;
-    console.log(data)
     connectedClients[`${data.list.mentorName}-${data.list.studentName}`] = `${
       data.list.mentorName
     }-${data.list.studentName}`;
@@ -44,7 +43,7 @@ io.on('connection', async socket => {
     });
   });
   socket.on('message', data => {
-    console.log('sending from', data);
+    console.log('sending from', data.user);
     if (
       data.to &&
       (data.user === data.to.studentName || data.user === data.to.mentorName)
