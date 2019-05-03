@@ -42,6 +42,7 @@ const helperQueue = {
   async deleteStudentFromQueue(db, res, queuetoDeleteId, titleOfUser, user_name){
     const pointer = await QueueService.getPointers(db);
 
+    console.log({ res, queuetoDeleteId, titleOfUser, user_name });
     if(pointer.head === null)
       return res.status(404).json({
         error: 'no one is in line to remove'
@@ -86,7 +87,7 @@ const helperQueue = {
     if(currentQueue.id === queuetoDeleteId && currentQueue.next === null){
       await QueueService.updateQueue(db, queueBefore.id, currentQueue.next);
       await QueueService.removeFromQueue(db, currentQueue.id);
-      await QueueService.updateTailPointer(db, queueBefore.id)
+      await QueueService.updateTailPointer(db, queueBefore.id);
       return res.status(204).end()
     }
 

@@ -139,7 +139,8 @@ queueRouter
   .delete(requireAuth, async (req, res, next) => {
     try{
       const {title, user_name} = req.user;
-      const queuePosition =  Number(req.params.sessionId);
+      const queuePosition = Number(req.params.sessionId);
+      console.log(queuePosition)
 
       await helperQueue.deleteStudentFromQueue(req.app.get('db'), res, queuePosition, title, user_name);
       res.status(204).end();
