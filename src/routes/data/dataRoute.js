@@ -12,9 +12,6 @@ dataRouter
         const data = await dataService.getStudent(req.app.get('db'), req.user.user_name);
         return res.status(200).send(data);
       }
-      if (req.user.title !== 'mentor') {
-        return res.status(403).send({ error: 'only mentors have access' });
-      }
 
       const data = await dataService.getCompleted(req.app.get('db'));
       res.json(data);
@@ -31,7 +28,7 @@ dataRouter
     try {
 
       if (req.user.title !== 'mentor') {
-        return res.status(403).send({ error: 'only mentors can see notes on students' });
+        return;
       }
 
       const notes = await dataService.getNotes(req.app.get('db'));
