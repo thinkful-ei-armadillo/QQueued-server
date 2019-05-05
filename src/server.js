@@ -73,6 +73,15 @@ io.on('connection', async socket => {
   socket.on('helpStudent', data=> {
     io.emit('helpStudent',data)
   })
+  socket.on('isTyping', data => {
+    if (
+      data.to &&
+      (data.user === data.to.studentName || data.user === data.to.mentorName)
+    ) {
+      let id = connectedClients[`${data.to.mentorName}-${data.to.studentName}`];
+      socket.to(id).broadcast.emit('isTyping', data);
+    }
+  })
 });
 
 const getApiAndEmit = async socket => {
