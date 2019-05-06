@@ -3,7 +3,9 @@ const { PORT } = require('./config');
 const knex = require('knex');
 const { DB_URL, API_ENDPOINT } = require('./config');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  pingTimeout: 60000,
+});
 const axios = require('axios');
 const helperQueue = require('../src/routes/queue/helperQueue');
 
