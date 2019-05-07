@@ -9,6 +9,7 @@ const parser = express.json();
 authRouter
   .route('/')
   .post(parser, (req, res, next) => {
+    
     const { user_name, password } = req.body;
  
     const { error, isError } = validateAuthRequest(req.body);
@@ -42,14 +43,18 @@ authRouter
         .catch(next);
     }
   })
-  .put(requireAuth, (req, res) => {
-    const sub = req.user.user_name;
-    const payload = {
-      user_id: req.user.id,
-      name: req.user.full_name,
-      title: req.user.title
-    };
-    res.send({ authToken: AuthService.createJwt(sub, payload) });
+  .put(requireAuth, (req, res, next) => {
+    try{
+      const sub = req.user.user_name;
+      const payload = {
+        user_id: req.user.id,
+        name: req.user.full_name,
+        title: req.user.title
+      };
+      res.send({ authToken: AuthService.createJwt(sub, payload) });
+    } catch (error) {
+      next(error);
+    }
   });
 
 module.exports = authRouter;

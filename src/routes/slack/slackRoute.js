@@ -67,6 +67,7 @@ _*NOTE*: When signing up, use your *Slack handle* for your *username*_
   });
 slackRouter.route("/message").post(parser, async (req, res, next) => {
   const { user, text } = req.body;
+
   let con = {
     headers: {
       Authorization: `Bearer ${config.SLACK_TOKEN}`
