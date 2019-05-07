@@ -38,17 +38,6 @@ describe('Auth endpoints', () => {
           .expect(400, { error: 'Incorrect username or password' });
       });
 
-      it('responds with 400 and Incorrect username or password', () => {
-        let body = {
-          user_name: testUser.user_name,
-          password: 'wrongpass'
-        };
-
-        return supertest(app)
-          .post('/api/auth')
-          .send(body)
-          .expect(400, { error: 'Incorrect username or password' });
-      });
     });
     context('Given that the user enters correct information', () => {
       
