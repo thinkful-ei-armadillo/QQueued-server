@@ -6,7 +6,7 @@ const testHelpers = {
     return [
       {
         id: 1,
-        user_name: "admin",
+        user_name: "Frank",
         title: "mentor",
         full_name: "Dunder Mifflin Admin",
         password: "Password123$"
@@ -174,9 +174,14 @@ const testHelpers = {
     })
   },
 
-  makeAuthHeader(user, secret = process.env.JWT_SECRET) {
-    const authToken = jwt.sign({ id: user.id, title: user.title }, secret, {
+  makeAuthHeader(user, secret = process.env.JWT_SECRET, expiresIn = process.env.JWT_EXPIRY) {
+    const authToken = jwt.sign({
+      user_id: user.id,
+      name: user.full_name,
+      title: user.title
+    }, secret, {
       subject: user.user_name,
+      expiresIn,
       algorithm: "HS256"
     });
     return `Bearer ${authToken}`;
