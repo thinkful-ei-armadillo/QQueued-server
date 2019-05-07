@@ -156,7 +156,7 @@ const testHelpers = {
   },
 
   makeAuthHeader(user, secret = process.env.JWT_SECRET) {
-    const authToken = jwt.sign({ id: user.id, admin: true }, secret, {
+    const authToken = jwt.sign({ id: user.id, title: user.title }, secret, {
       subject: user.user_name,
       algorithm: "HS256"
     });
