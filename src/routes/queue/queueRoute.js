@@ -26,7 +26,7 @@ queueRouter
   })
   .post(requireAuth, parser, async (req, res, next) => {
     try {
-      console.log(req.user)
+    
       const { user_name } = req.user;
       const { description } = req.body;
       let newQueueData = { description, user_name };
@@ -140,7 +140,6 @@ queueRouter
     try{
       const {title, user_name} = req.user;
       const queuePosition = Number(req.params.sessionId);
-      console.log(queuePosition)
 
       await helperQueue.deleteStudentFromQueue(req.app.get('db'), res, queuePosition, title, user_name);
       res.status(204).end();

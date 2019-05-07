@@ -1,7 +1,7 @@
 const app = require('./app');
 const { PORT } = require('./config');
 const knex = require('knex');
-const { DB_URL, API_ENDPOINT } = require('./config');
+const { DB_URL, NODE_ENV } = require('./config');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
   pingTimeout: 60000,
@@ -26,6 +26,10 @@ io.on('connection', async socket => {
 
   socket.on('join-room', data => {
     socket.userName = data.userName;
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 3787db330113d1e31180abb4c35d1a91ebd5604c
     connectedClients[`${data.list.mentorName}-${data.list.studentName}`] = `${
       data.list.mentorName
     }-${data.list.studentName}`;
@@ -72,6 +76,7 @@ io.on('connection', async socket => {
       socket.to(id).broadcast.emit('message', data);
     }
   });
+<<<<<<< HEAD
   socket.on('helpStudent', data=> {
     io.emit('helpStudent',data)
   })
@@ -84,6 +89,11 @@ io.on('connection', async socket => {
       socket.to(id).broadcast.emit('isTyping', data);
     }
   })
+=======
+  socket.on('helpStudent', data => {
+    io.emit('helpStudent', data);
+  });
+>>>>>>> 3787db330113d1e31180abb4c35d1a91ebd5604c
 });
 
 const getApiAndEmit = async socket => {
@@ -97,5 +107,9 @@ const getApiAndEmit = async socket => {
 };
 
 http.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
+  if (NODE_ENV === 'production') {
+    console.log(`Server listening to heroku:${PORT}`);
+  } else {
+    console.log(`Server listening at http://localhost:${PORT}`);
+  }
 });
