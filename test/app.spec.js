@@ -1,4 +1,4 @@
-'use strict';
+/* eslint-disable no-undef */
 
 const app = require('../src/app');
 
