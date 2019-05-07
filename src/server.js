@@ -3,7 +3,9 @@ const { PORT } = require('./config');
 const knex = require('knex');
 const { DB_URL, NODE_ENV } = require('./config');
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  pingTimeout: 60000,
+});
 const axios = require('axios');
 const helperQueue = require('../src/routes/queue/helperQueue');
 
@@ -24,7 +26,6 @@ io.on('connection', async socket => {
 
   socket.on('join-room', data => {
     socket.userName = data.userName;
-   
     connectedClients[`${data.list.mentorName}-${data.list.studentName}`] = `${
       data.list.mentorName
     }-${data.list.studentName}`;
@@ -44,7 +45,7 @@ io.on('connection', async socket => {
     });
   });
   socket.on('message', data => {
-    console.log('sending from', data);
+    console.log('sending from', data.user);
     if (
       data.to &&
       (data.user === data.to.studentName || data.user === data.to.mentorName)
@@ -71,9 +72,18 @@ io.on('connection', async socket => {
       socket.to(id).broadcast.emit('message', data);
     }
   });
-  socket.on('helpStudent', data => {
-    io.emit('helpStudent', data);
-  });
+  socket.on('helpStudent', data=> {
+    io.emit('helpStudent',data)
+  })
+  socket.on('isTyping', data => {
+    if (
+      data.to &&
+      (data.user === data.to.studentName || data.user === data.to.mentorName)
+    ) {
+      let id = connectedClients[`${data.to.mentorName}-${data.to.studentName}`];
+      socket.to(id).broadcast.emit('isTyping', data);
+    }
+  })
 });
 
 const getApiAndEmit = async socket => {
