@@ -26,10 +26,6 @@ io.on('connection', async socket => {
 
   socket.on('join-room', data => {
     socket.userName = data.userName;
-<<<<<<< HEAD
-=======
-   
->>>>>>> 3787db330113d1e31180abb4c35d1a91ebd5604c
     connectedClients[`${data.list.mentorName}-${data.list.studentName}`] = `${
       data.list.mentorName
     }-${data.list.studentName}`;
@@ -76,7 +72,6 @@ io.on('connection', async socket => {
       socket.to(id).broadcast.emit('message', data);
     }
   });
-<<<<<<< HEAD
   socket.on('helpStudent', data=> {
     io.emit('helpStudent',data)
   })
@@ -89,11 +84,6 @@ io.on('connection', async socket => {
       socket.to(id).broadcast.emit('isTyping', data);
     }
   })
-=======
-  socket.on('helpStudent', data => {
-    io.emit('helpStudent', data);
-  });
->>>>>>> 3787db330113d1e31180abb4c35d1a91ebd5604c
 });
 
 const getApiAndEmit = async socket => {
