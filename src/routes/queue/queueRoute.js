@@ -59,9 +59,11 @@ queueRouter
       next(error);
     }
   })
-  .patch(requireAuth, async (req, res, next) => {
+  .patch(requireAuth, parser, async (req, res, next) => {
     try {
       const { title, user_name } = req.user;
+      const {uuid} = req.body;
+      
       let io = req.app.get('socketio');
       if (title !== 'mentor')
         return res.status(400).json({
@@ -80,7 +82,8 @@ queueRouter
       const currentDequeueUpdate = {
         mentor_user_name: user_name,
         dequeue: true,
-        next: null
+        next: null,
+        room: uuid
       };
 
       await QueueService.updateHeadPointer(req.app.get('db'), current.next);

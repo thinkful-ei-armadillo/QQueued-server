@@ -10,5 +10,8 @@ CREATE TABLE "queue" (
   "slack_user_id" TEXT,
   "slack_handle"  TEXT,
   "next" INTEGER REFERENCES "queue"(id)
-    ON DELETE SET NULL
+    ON DELETE SET NULL,
+  "room" TEXT,
+  "mentor_notes" TEXT,
+  "student_notes" TEXT
 );
