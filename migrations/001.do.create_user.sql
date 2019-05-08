@@ -3,5 +3,6 @@ CREATE TABLE "user" (
   "user_name" TEXT NOT NULL UNIQUE,
   "title" TEXT NOT NULL,
   "full_name" TEXT NOT NULL,
+  "slack_user_id" TEXT,
   "password" TEXT NOT NULL
 );

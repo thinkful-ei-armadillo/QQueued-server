@@ -7,7 +7,10 @@ const slackService = {
   },
   getByUserName(db, user_name){
     return db.into('user').select('*').where({user_name}).first();
+  },
+  updateSlackId(db, user_name, slack_user_id){
+    return db.into('user').where({user_name}).update({slack_user_id});
   }
-}
+};
 
 module.exports = slackService;
