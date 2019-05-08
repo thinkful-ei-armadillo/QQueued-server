@@ -3,20 +3,20 @@ const dataRouter = express.Router();
 const parser = express.json();
 const { requireAuth } = require('../../middleware/jwt-auth');
 const dataService = require('./dataService');
-const QueueService = require('../queue/queueService')
 
 dataRouter
   .route('/')
   .get(requireAuth, async (req, res, next) => {
     try {
       const {user_name, title } = req.user;
-      const db = req.app.get('db')
+      const db = req.app.get('db');
       if (title === 'student') {
         const data = await dataService.getStudentData(db, user_name);
         return res.status(200).send(data);
       }
 
-      const data = await QueueService.getCompleted(db);
+      const data = await dataService.getData(db);
+
       res.json(data);
     }
 

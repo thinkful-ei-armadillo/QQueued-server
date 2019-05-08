@@ -73,8 +73,8 @@ io.on('connection', async socket => {
     }
   });
   socket.on('helpStudent', data=> {
-    io.emit('helpStudent',data)
-  })
+    io.emit('helpStudent',data);
+  });
   socket.on('isTyping', data => {
     if (
       data.to &&
@@ -83,7 +83,7 @@ io.on('connection', async socket => {
       let id = connectedClients[`${data.to.mentorName}-${data.to.studentName}`];
       socket.to(id).broadcast.emit('isTyping', data);
     }
-  })
+  });
 });
 
 const getApiAndEmit = async socket => {
