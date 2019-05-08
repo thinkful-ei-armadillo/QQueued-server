@@ -26,8 +26,9 @@ authRouter
           }
           return user;
         })
-        .then(user => {
-          if (!AuthService.comparePasswords(password, user.password)) {
+        .then( async user => {
+          const check  = await AuthService.comparePasswords(password, user.password)
+          if (!check) {
             return res.status(400).send({ error: 'Incorrect username or password' });
           }
           return user;
