@@ -54,16 +54,14 @@ dataRouter
       let noteToDatabase;
       
       if(title){
-        if (user_name === noteItem.mentor_user_name){
+        if (user_name === noteItem.mentor_user_name)
           noteToDatabase = {mentor_notes: note}
-        }
-        else if (user_name === noteItem.user_name){
+        else if (user_name === noteItem.user_name)
           noteToDatabase = {student_notes: note}
-        }
+        else
         res.status(404).json({error: `only original mentor/student can edit notes`})
-      } else {
+      } else
         res.status(404).json({error: 'you do not have permission to edit notes'})
-      }
       
       await dataService.updateNote(db, noteId, noteToDatabase)
         .then(() => res.status(204).end())
