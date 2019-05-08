@@ -32,8 +32,7 @@ slackRouter
       if (oneTicketOnly.length === 0) {
         let newQueueData = {
           description: text,
-          user_name,
-          slack_user_id: user_id
+          user_name
         };
 
         const data = await helperQueue.addToQueue(
