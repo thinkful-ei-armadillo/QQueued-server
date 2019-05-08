@@ -10,7 +10,7 @@ const QueueService = {
         'queue.completed', 
         'queue.dequeue', 
         'queue.next',
-        'queue.slack_user_id',
+        'user.slack_user_id',
         'user.full_name as studentName',
         'mentor.full_name as mentorName'
       )
