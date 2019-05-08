@@ -27,7 +27,7 @@ const errorHandling = {
     for (const key of ['user_name', 'password']) {
       if (!body[key]) {
         result.isError = true;
-        result.error = `Missing "${key}" in request body`;
+        result.error = `Missing ${key} in request body`;
         return result;
       }
 

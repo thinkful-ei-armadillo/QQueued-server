@@ -1,7 +1,7 @@
 const app = require('./app');
 const { PORT } = require('./config');
 const knex = require('knex');
-const { DB_URL, API_ENDPOINT } = require('./config');
+const { DB_URL, NODE_ENV } = require('./config');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
   pingTimeout: 60000,
@@ -97,5 +97,9 @@ const getApiAndEmit = async socket => {
 };
 
 http.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
+  if (NODE_ENV === 'production') {
+    console.log(`Server listening to heroku:${PORT}`);
+  } else {
+    console.log(`Server listening at http://localhost:${PORT}`);
+  }
 });

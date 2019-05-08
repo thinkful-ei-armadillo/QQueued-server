@@ -87,7 +87,7 @@ slackRouter.route("/message").post(parser, async (req, res, next) => {
     .then(data => data.data)
     .catch(err => next(err));
 
-  res.json(message);
+  res.status(200).json(message);
 });
 
 slackRouter.route("/events").post(parser, async (req, res, next) => {
