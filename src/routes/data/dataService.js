@@ -18,6 +18,28 @@ const dataService = {
       .orderBy('id', 'dsc');
   },
 
+  getData(db) {
+    return db.from('queue')
+      .select(
+        'queue.description',
+        'queue.id',
+        'queue.user_name',
+        'queue.completed',
+        'queue.dequeue',
+        'queue.next',
+        'queue.room',
+        'queue.mentor_notes as mentorNotes',
+        'queue.student_notes as studentNotes',
+        'queue.slack_user_id',
+        'user.full_name as studentName',
+        'mentor.full_name as mentorName'
+      )
+      .where({ completed: false })
+      .rightJoin('user', 'queue.user_name', 'user.user_name')
+      .leftJoin('user AS mentor', 'queue.mentor_user_name', 'mentor.user_name')
+      .orderBy('id', 'asc');
+  },
+
   getNotes(db) {
     return db.from('queue')
       .select(

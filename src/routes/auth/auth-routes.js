@@ -11,9 +11,8 @@ authRouter
   .post(parser, (req, res, next) => {
     
     const { user_name, password } = req.body;
- 
+    console.log({body: req.body })
     const { error, isError } = validateAuthRequest(req.body);
-    const loginUser = { user_name, password };
     const db = req.app.get('db');
 
     if (isError) {
@@ -22,14 +21,17 @@ authRouter
       AuthService
         .getUser(db, user_name)
         .then(user => {
-          !user
-            ? res.status(400).send({ error: 'Incorrect username or password' })
-            : user;  return user;
+          if (!user) {
+            return res.status(400).send({ error: 'Incorrect username or password' });
+          }
+          return user;
         })
-        .then(user => { 
-          !AuthService.comparePasswords(loginUser.password, user.password)
-            ? res.status(400).send({ error: 'Incorrect username or password' })
-            : user; return user;
+        .then( async user => {
+          const check  = await AuthService.comparePasswords(password, user.password)
+          if (!check) {
+            return res.status(400).send({ error: 'Incorrect username or password' });
+          }
+          return user;
         })
         .then(user => { 
           const sub = user.user_name;
