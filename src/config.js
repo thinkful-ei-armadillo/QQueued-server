@@ -1,7 +1,7 @@
 module.exports = {
   PORT: process.env.PORT || 8000,
   NODE_ENV: process.env.NODE_ENV || 'development',
-  API_ENDPOINT:'http://localhost:8000/api',
+  API_ENDPOINT: process.env.API_ENDPOINT,
   DB_URL: process.env.DATABASE_URL,
   TEST_DB_URL: process.env.TEST_DB_URL,
   JWT_SECRET: process.env.JWT_SECRET || 'blogful-client-auth-token',
