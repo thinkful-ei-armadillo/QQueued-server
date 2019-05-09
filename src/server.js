@@ -86,15 +86,6 @@ io.on('connection', async socket => {
   });
 });
 
-const getApiAndEmit = async socket => {
-  try {
-    const data = await helperQueue.getQueueData(db);
-
-    socket.emit('FromAPI', data);
-  } catch (error) {
-    console.error(`Error: ${error.code}`);
-  }
-};
 
 http.listen(PORT, () => {
   if (NODE_ENV === 'production') {
