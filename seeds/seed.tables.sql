@@ -65,12 +65,4 @@ VALUES
   INSERT INTO "pointers"("id", "head", "tail")
   VALUES
     (1, 3, 5);
-
-  INSERT INTO "studentData" ("user_name", "queue_id", "helped_by", "question", "note")
-  VALUES
-    ('student2', 1, 'professX', 'help me i dont know what im doing', null),
-    ('student3', 2, 'Queen D', 'help me i dont know what im doing', null),
-    ('student4', 3, null, 'help me i dont know what im doing', null),
-    ('matth3wn', 4, null, 'help me i dont know what im doing', null),
-    ('student2', 5, null, 'help me i dont know what im doing', null);
 COMMIT;
