@@ -1,26 +1,82 @@
-# Express Boilerplate!
+# [Application name]
 
-This is a boilerplate project used for starting new projects!
+**Application was made by Hunter Kreshock, Jonathan Kleinpeter, Matthew Nguyen and Robin Khiv**
 
-## Set up
+[Demo](https://get-rekt-capstone.now.sh/)   
+[Client Repo](https://github.com/thinkful-ei-armadillo/git-rekt-client)  
+[Server Repo](https://github.com/thinkful-ei-armadillo/git-rekt-server) 
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+*You can use the follow credentials to demo our application.* 
+   
+Username: v1015181  
+Password: passworD1!  
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+Sign into the following [Demo Slack Workspace](https://test-k877722.slack.com)  
+Slack email: v1015181@nwytg.net  
+Slack password: passworD1!  
 
-## Scripts
+**Important**: if you wish to you the Slack integration, your username on the application __must__ match your Slack handle.  
 
-Start the application `npm start`
+## Summary      
 
-Start nodemon for the application `npm run dev`
+This is your new tool to help deal with communication between students and mentors. Student are able to create help tickets through the application, or Slack, and are able to track where they are in line. The application is a visual queue, allowing mentors to be even more transparent with the students in the sense that the students will now know where the mentors are.  
 
-Run the tests `npm test`
+## Getting Started  
+Client:    
+```
+git clone https://github.com/thinkful-ei-armadillo/git-rekt-client
+cd git-rekt-client  
+npm install 
+```  
+Server:  
+```
+git clone https://github.com/thinkful-ei-armadillo/git-rekt-client 
+cd git-rekt-server 
+npm install  
+npm run migrate  
+```  
 
-## Deploying
+## Slack Commands  
+Creating a help ticket:  
+```
+/help-me [insert question]
+``` 
+Under Apps, direct message wenc the bot either command to get position in queue:
+```
+queue or ticket
+```
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+## API Endpoints  
+```
+POST /api/auth  
+PUT /api/auth  
+
+GET /api/data  
+GET /api/data/note  
+POST /api/data/note/:noteID  
+
+GET /api/queue  
+POST /api/queue  
+PATCH /api/queue  
+PATCH /api/queue/:sessionID  
+DELETE /api/queue/:sessionID 
+```
+## Tech Used  
+*Front-End:*  
+* React
+
+*Back-End:*   
+* Node.js 
+* Express.js  
+* Postgresql  
+* socket.io  
+* Slack API  
+
+*Dev-Tools*  
+* ZEIT  
+* Heroku  
+* ngrok  
+
+ 
+
+
