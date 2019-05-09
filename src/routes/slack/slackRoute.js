@@ -117,7 +117,10 @@ slackRouter.route('/events').post(parser, async (req, res, next) => {
   });
   if (event.bot_id !== 'BHT4QNKGA' && event.text === 'queue') {
     const number = queueList.indexOf(student);
-    const text = `You can currently *#${number + 1}* in the queue.`;
+    let text = `You can currently *#${number + 1}* in the queue.`;
+    if(number === -1) {
+      text = `You don't have any tickets.`
+    }
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,
@@ -135,6 +138,7 @@ slackRouter.route('/events').post(parser, async (req, res, next) => {
         temp += `${j + 1}) *${i.description}* \n`;
       }
     });
+    
     await axios
       .post(
         `${config.SLACK_ENDPOINT}/chat.postMessage`,

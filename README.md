@@ -1,4 +1,4 @@
-# [Application name]
+# QQueued
 
 **Application was made by Hunter Kreshock, Jonathan Kleinpeter, Matthew Nguyen and Robin Khiv**
 
