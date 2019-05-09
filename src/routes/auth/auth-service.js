@@ -10,7 +10,7 @@ const AuthService = {
   },
   getUser(db, user_name) {
     return db('user')
-      .where({ user_name})
+      .where({ user_name })
       .first();
   },
 

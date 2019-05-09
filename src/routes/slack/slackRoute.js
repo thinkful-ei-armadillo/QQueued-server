@@ -13,6 +13,13 @@ slackRouter
   .post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
     try {
       const { user_id, user_name, text } = req.body;
+      const user = await slackService.getByUserName(req.app.get('db'), user_name);
+ 
+      if (!user)
+        return res.status(401).json({ error: 'Unauthorized request please use same username in client and slack' });
+      if(!user.slack_user_id)
+        await slackService.updateSlackId(req.app.get('db'), user_name, user_id)
+
       const io = req.app.get("socketio");
       if (!text)
         return res.status(400).json({
@@ -25,8 +32,7 @@ slackRouter
       if (oneTicketOnly.length === 0) {
         let newQueueData = {
           description: text,
-          user_name,
-          slack_user_id: user_id
+          user_name
         };
 
         const data = await helperQueue.addToQueue(
@@ -67,6 +73,7 @@ _*NOTE*: When signing up, use your *Slack handle* for your *username*_
   });
 slackRouter.route("/message").post(parser, async (req, res, next) => {
   const { user, text } = req.body;
+
   let con = {
     headers: {
       Authorization: `Bearer ${config.SLACK_TOKEN}`
@@ -86,7 +93,7 @@ slackRouter.route("/message").post(parser, async (req, res, next) => {
     .then(data => data.data)
     .catch(err => next(err));
 
-  res.json(message);
+  res.status(200).json(message);
 });
 
 slackRouter.route("/events").post(parser, async (req, res, next) => {

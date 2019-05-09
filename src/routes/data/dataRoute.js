@@ -8,12 +8,15 @@ dataRouter
   .route('/')
   .get(requireAuth, async (req, res, next) => {
     try {
-      if (req.user.title === 'student') {
-        const data = await dataService.getStudent(req.app.get('db'), req.user.user_name);
+      const {user_name, title } = req.user;
+      const db = req.app.get('db');
+      if (title === 'student') {
+        const data = await dataService.getStudentData(db, user_name);
         return res.status(200).send(data);
       }
 
-      const data = await dataService.getCompleted(req.app.get('db'));
+      const data = await dataService.getData(db);
+
       res.json(data);
     }
 
@@ -26,8 +29,8 @@ dataRouter
   .route('/note')
   .get(requireAuth, async (req, res, next) => {
     try {
-
-      if (req.user.title !== 'mentor') {
+      const {title} = req.user;
+      if (title !== 'mentor') {
         return res.send({notes: []});
       }
 
@@ -40,14 +43,29 @@ dataRouter
   });
 
 dataRouter
-  .route('/note/:queue_id')
+  .route('/note/:noteId')
   .post(parser, requireAuth, async (req, res, next) => {
     try {
-      if (req.user.title !== 'mentor') {
-        return res.status(403).send({ error: 'only mentors can post notes' });
-      }
-      const note = await dataService.postNote(req.app.get('db'), req.body.note, req.params.queue_id);
-      res.status(200).send(note);
+      const {noteId} = req.params;
+      const { title, user_name } = req.user;
+      const {note} = req.body
+      const db = req.app.get('db');
+      const noteItem = await dataService.getByNoteId(req.app.get('db'), noteId);
+      let noteToDatabase;
+      
+      if(title){
+        if (user_name === noteItem.mentor_user_name)
+          noteToDatabase = {mentor_notes: note}
+        else if (user_name === noteItem.user_name)
+          noteToDatabase = {student_notes: note}
+        else
+        res.status(404).json({error: `only original mentor/student can edit notes`})
+      } else
+        res.status(404).json({error: 'you do not have permission to edit notes'})
+      
+      await dataService.updateNote(db, noteId, noteToDatabase)
+        .then(() => res.status(204).end())
+     
     }
     catch (error) {
       next(error);
