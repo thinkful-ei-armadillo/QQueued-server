@@ -1,6 +1,5 @@
 BEGIN;
 TRUNCATE
-  "studentData",
   "pointers",
   "queue",
   "user";
