@@ -2,7 +2,7 @@
 
 **Application was made by Hunter Kreshock, Jonathan Kleinpeter, Matthew Nguyen and Robin Khiv**
 
-[Demo](https://get-rekt-capstone.now.sh/)   
+[Demo](https://qqueued.now.sh/)   
 [Client Repo](https://github.com/thinkful-ei-armadillo/git-rekt-client)  
 [Server Repo](https://github.com/thinkful-ei-armadillo/git-rekt-server) 
 
