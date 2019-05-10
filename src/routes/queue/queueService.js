@@ -46,19 +46,6 @@ const QueueService = {
       );
   },
 
-  addStudentData(db, data) {
-    return db
-      .insert(data)
-      .into('studentData');
-  },
-
-  updateStudentData(db, id, data) {
-    return db
-      .into('studentData')
-      .where({ queue_id: id })
-      .update({ helped_by: data });
-  },
-
   getById(db, id) {
     return QueueService.getAll(db)
       .where('queue.id', id)
