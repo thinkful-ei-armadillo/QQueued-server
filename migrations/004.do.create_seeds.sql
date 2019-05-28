@@ -56,7 +56,7 @@ VALUES
   INSERT INTO "queue" ("description", "user_name", "mentor_user_name", "dequeue", "completed", "next")
   VALUES
     ('help me i dont know what im doing', 'student2', 'professX', TRUE, FALSE, null),
-    ('help me i dont know what im doing', 'student3', 'Queen D', TRUE, FALSE, null),
+    ('help me i dont know what im doing', 'student3', 'QueenD', TRUE, FALSE, null),
     ('help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, 4),
     ('help me i dont know what im doing', 'matth3wn', NULL, FALSE, FALSE, 5),
     ('help me i dont know what im doing', 'student4', NULL, FALSE, FALSE, null);
