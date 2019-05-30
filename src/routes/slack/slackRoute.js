@@ -12,6 +12,7 @@ slackRouter
   .route('/')
   .post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
     try {
+      console.log(req.body)
       const { user_id, user_name, text } = req.body;
       const user = await slackService.getByUserName(req.app.get('db'), user_name);
  
