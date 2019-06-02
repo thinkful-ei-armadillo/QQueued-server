@@ -11,7 +11,6 @@ authRouter
   .post(parser, (req, res, next) => {
     
     const { user_name, password } = req.body;
-    console.log({body: req.body })
     const { error, isError } = validateAuthRequest(req.body);
     const db = req.app.get('db');
 
@@ -20,7 +19,7 @@ authRouter
     } else {
       AuthService
         .getUser(db, user_name)
-        .then(user => {
+        .then(user =>  {
           if (!user) {
             return res.status(400).send({ error: 'Incorrect username or password' });
           }

@@ -17,6 +17,13 @@ Slack password: passworD1!
 
 **Important**: if you wish to you the Slack integration, your username on the application __must__ match your Slack handle.  
 
+
+![landing](./screenshots/landing.png)
+![queue](./screenshots/queue.png)
+![chat](./screenshots/chat.png)
+![graph](./screenshots/graph.png)
+![helped](./screenshots/helped.png)
+
 ## Summary      
 
 This is your new tool to help deal with communication between students and mentors. Student are able to create help tickets through the application, or Slack, and are able to track where they are in line. The application is a visual queue, allowing mentors to be even more transparent with the students in the sense that the students will now know where the mentors are.  

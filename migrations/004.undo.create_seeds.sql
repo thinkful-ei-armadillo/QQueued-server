@@ -1,0 +1,4 @@
+TRUNCATE
+  "pointers",
+  "queue",
+  "user";
