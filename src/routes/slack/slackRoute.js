@@ -12,7 +12,6 @@ slackRouter
   .route('/')
   .post(bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
     try {
-      console.log(req.body)
       const { user_id, user_name, text } = req.body;
       const user = await slackService.getByUserName(req.app.get('db'), user_name);
  
@@ -58,8 +57,8 @@ slackRouter
           text: 'You can only submit one ticket at a time!',
           attachments: [
             {
-              'title': 'Git-Rekt',
-              'title_link': 'http://localhost:3000/register',
+              'title': 'QQueued',
+              'title_link': 'https://qqueued-mentoring.now.sh/register',
               text: `Sign up to be able to delete your current ticket. 
 _*NOTE*: When signing up, use your *Slack handle* for your *username*_
               `
@@ -78,10 +77,9 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
   let con = {
     headers: {
       Authorization: `Bearer ${config.SLACK_TOKEN}`,
-      token: `${config.SLACK_TOKEN}`
     }
   };
-  console.log(con)
+
   const data = await axios
     .post(`${config.SLACK_ENDPOINT}/im.open`, { user: user }, con)
     .then(data => data.data)
@@ -159,20 +157,3 @@ slackRouter.route('/events').post(parser, async (req, res, next) => {
 
 module.exports = slackRouter;
 
-/*
- This the response we get from slack when users send a help ticket.
-
-  token: 'wR78HWvgKZBnhdTlAgndM3BL',
-  team_id: 'THS07P24B',
-  team_domain: 'test-k877722',
-  channel_id: 'DJ5JSMW0N',
-  channel_name: 'directmessage',
-  user_id: 'UJ3CMD8UV',
-  user_name: 'matth3wn',
-  command: '/help-me',
-  text: 'react',
-  response_url:
-   'https://hooks.slack.com/commands/THS07P24B/615952970724/TAqOj3aj0pqHNNlfetS2ldpZ',
-  trigger_id: '605100389874.604007784147.c77ed8e54ac737e10dafa77e7858485c'
-
-*/
