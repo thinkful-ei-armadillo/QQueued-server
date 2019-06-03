@@ -9,9 +9,7 @@ const usersRouter = require('./routes/users/users-routes');
 const authRouter = require('./routes/auth/auth-routes');
 const dataRouter = require('./routes/data/dataRoute');
 const studentRouter = require('./routes/student/studentRoute');
-
 const { NODE_ENV } = require('./config');
-
 
 const app = express();
 
@@ -29,8 +27,6 @@ app.use('/api/student', studentRouter);
 app.use('/api/queue', queueRouter);
 app.use('/api/data', dataRouter);
 app.use('/api/slack', slackRouter);
-
-
 
 app.use(function errorHandler(error, req, res, next) {
   let response;

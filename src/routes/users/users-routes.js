@@ -8,7 +8,7 @@ const { validatePassword, validateUserRequest } = require('../../helper/errorHan
 
 usersRouter
   .route('/')
-  .get(/* requireAuth, */(req, res, next) => {
+  .get((req, res, next) => {
     UserService
       .getUsers(req.app.get('db'))
       .then(users => {
