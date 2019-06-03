@@ -76,13 +76,14 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
   const { user, text } = req.body;
 
   let con = {
-      token: `${config.BOT_TOKEN}`
+      token: `${config.BOT_TOKEN}`,
+      user: user
     };
   const data = await axios
-    .post(`${config.SLACK_ENDPOINT}/im.open`, { user: user }, con)
+    .post(`${config.SLACK_ENDPOINT}/im.open`, con)
     .then(data => data.data)
     .catch(err => next(err));
-
+  console.log(data)
   const message = await axios
     .post(
       `${config.SLACK_ENDPOINT}/chat.postMessage`,
