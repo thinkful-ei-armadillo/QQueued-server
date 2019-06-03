@@ -85,6 +85,9 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
     .then(data => data.data)
     .catch(err => next(err));
   console.log(data)
+  con.channel = data.channel.id;
+  con.text = text;
+  console.log(con)
   const message = await axios
     .post(
       `${config.SLACK_ENDPOINT}/chat.postMessage`,
