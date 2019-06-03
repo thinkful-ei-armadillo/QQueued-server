@@ -79,6 +79,7 @@ slackRouter.route('/message').post(parser, async (req, res, next) => {
       token: `${config.BOT_TOKEN}`,
       user: user
     };
+    console.log(con)
   const data = await axios
     .post(`${config.SLACK_ENDPOINT}/im.open`, con)
     .then(data => data.data)
