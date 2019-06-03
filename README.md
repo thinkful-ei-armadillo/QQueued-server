@@ -13,12 +13,11 @@ Password: pass
 
 **Important**: if you wish to you the Slack integration, your username on the application __must__ match your Slack handle.  
 
-<img src="./screenshots/qqueuedLanding.png" alt="drawing" width="200"/>
-![landing](./screenshots/qqueuedLanding.png =250x)
-![queue](./screenshots/queue.png =250x)
-![chat](./screenshots/chat.png =250x)
-![graph](./screenshots/graph.png =250x)
-![helped](./screenshots/helped.png =250x)
+<img src="./screenshots/qqueuedLanding.png" alt="landing" width="250"/>
+<img src="./screenshots/queue.png" alt="queue" width="250"/>
+<img src="./screenshots/chat.png" alt="chat" width="250"/>
+<img src="./screenshots/graph.png" alt="graph" width="250"/>
+<img src="./screenshots/helped.png" alt="helped" width="250"/>
 
 ## Summary      
 
