@@ -8,12 +8,12 @@
 
 *You can use the follow credentials to demo our application.* 
    
-Username: admin 
-Password: pass  
+Username: admin  
+Password: pass
 
 **Important**: if you wish to you the Slack integration, your username on the application __must__ match your Slack handle.  
 
-
+<img src="./screenshots/qqueuedLanding.png" alt="drawing" width="200"/>
 ![landing](./screenshots/qqueuedLanding.png =250x)
 ![queue](./screenshots/queue.png =250x)
 ![chat](./screenshots/chat.png =250x)
